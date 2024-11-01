@@ -1,0 +1,28 @@
+/// Global Style
+//
+body {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    height: 105vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(
+        rgba(255, 255, 255, 1), 
+        rgba(255, 255, 255, 1),
+        rgba(255, 255, 255, 1),
+        rgb(255, 0, 153, 0.1),
+        rgb(255, 0, 153, 0.4),
+        rgb(255, 0, 153, 0.7),
+        rgb(255, 0, 153, 1)
+    );
+}
+
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&family=Dongle&family=Quicksand:wght@300..700&display=swap');
+// font-family: "Quicksand", serif;
+// font-family: "Dongle", sans-serif;
+// font-family: "Bevan", serif;
+
+// Color

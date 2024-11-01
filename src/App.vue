@@ -12,11 +12,8 @@
 <script setup>
 </script>
 
-<style scoped>
-nav {
-  margin-bottom: 20px;
-}
-nav a {
-  margin-right: 10px;
+<style lang="scss">
+#app{
+  overflow: hidden;
 }
 </style>
