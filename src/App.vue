@@ -14,6 +14,6 @@
 
 <style lang="scss">
 #app{
-  overflow: hidden;
+  overflow: auto;
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
     <div class="base-logo">
-        <p class="base-logo-black">80to<span class="base-logo-color">100</span></p>
+        <a href="/">
+            <p class="base-logo-black">80to<span class="base-logo-color">100</span></p>
+        </a>
     </div>
 </template>
 
@@ -8,10 +10,12 @@
 </script>
 
 <style lang="scss">
+
 .base-logo {
     width: fit-content;
     padding: 5px;
     font-family: "Quicksand", serif;
+    cursor: pointer;
 
     &-black {
         font-size: 50px;

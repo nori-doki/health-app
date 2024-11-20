@@ -4,19 +4,10 @@ body {
     font-family: "Quicksand", sans-serif;
     font-weight: 400;
     font-size: 20px;
-    height: 105vh;
-    overflow: hidden;
+    height: 100vh;
+    overflow: auto;
     margin: 0;
     padding: 0;
-    background: linear-gradient(
-        rgba(255, 255, 255, 1), 
-        rgba(255, 255, 255, 1),
-        rgba(255, 255, 255, 1),
-        rgb(255, 0, 153, 0.1),
-        rgb(255, 0, 153, 0.4),
-        rgb(255, 0, 153, 0.7),
-        rgb(255, 0, 153, 1)
-    );
 }
 
 // Fonts
@@ -24,5 +15,41 @@ body {
 // font-family: "Quicksand", serif;
 // font-family: "Dongle", sans-serif;
 // font-family: "Bevan", serif;
+$font-base : 20px;
+$font-title-big : 40px;
+$font-title-medium : 30px;
+$font-subtitle : 25px;
 
 // Color
+$base-green: rgba(31, 251, 150, 1);
+$base-shade:rgba(0, 0, 86, 0.1);
+$base-yellow:rgba(255, 253, 0, 1);
+$base-pink: rgb(255, 0, 153, 1);
+
+// Custom styles 
+
+.pink-background {
+    background: linear-gradient(
+        rgba(255, 255, 255, 1), 
+        rgba(255, 255, 255, 1),
+        rgba(255, 255, 255, 1),
+        rgb(255, 0, 153, 0.1),
+        rgb(255, 0, 153, 0.4),
+        rgb(255, 0, 153, 0.7),
+        $base-pink
+    );
+}
+
+.big-title {
+    font-size: $font-title-big;
+    font-weight: 600;
+    margin: 15px auto;
+}
+.title {
+    font-size: $font-title-medium;
+    font-weight: 500;
+}
+.subtitle {
+
+    text-decoration: underline dotted;
+}

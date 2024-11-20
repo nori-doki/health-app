@@ -1,6 +1,6 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
+import LandingPage from '../views/LandingPage.vue';
 import About from '../views/About.vue';
 import SignUp from '../views/SignUp.vue';
 import Method from '../views/Method.vue'
@@ -8,8 +8,8 @@ import Method from '../views/Method.vue'
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'LandingPage',
+    component: LandingPage,
   },
   {
     path: '/about',
