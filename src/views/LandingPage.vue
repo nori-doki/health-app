@@ -9,9 +9,9 @@
                 :key="cta.id"
                 :label="cta.label"
                 :icon="cta.icon"
-                :class="`landing-page-nav-button-${cta.color}`"
+                :class="`landing-page-nav-button -${cta.color}`"
                 data-micron="shake"
-                @click="cta.callback"
+                @click="goToPage(cta.route)"
             ></Button>
         </div>
         <BaseLavaAnimation />
@@ -37,21 +37,21 @@ const callToActionList = ref([
         label: "Login",
         icon: "pi pi-lock-open",
         color: "white",
-        // callback : () => goToPage('/login')
+        // route : '/login'
     },
     {
         id: "about",
         label: "About us",
         icon: "pi pi-heart",
         color: "white",
-        callback : () => goToPage('/about')
+        route : '/about'
     },
     {
         id: "signUp",
         label: "Get started",
         icon : "pi pi-chevron-circle-right",
         color: "white",
-        callback : () => goToPage('/signUp')
+        route : '/signUp'
     },
 ]);
 
@@ -97,12 +97,15 @@ onMounted(() => {
         }
     }
     
-    .p-button.landing-page-nav-button- {
-        &green {
+    .p-button.landing-page-nav-button {
+        background-color: white;
+        box-shadow: 5px 5px 1px 1px $base-shade;
+
+        .-green {
             // background-color: rgb(186, 226, 165);
             // background-color: $base-green;
         }
-        &white {
+        .-white {
             background-color: white;
             // border: 1px solid black;
             box-shadow: 5px 5px 1px 1px $base-shade;
