@@ -12,4 +12,19 @@ export default defineConfig({
       "comp": path.resolve(__dirname, "./src/components")
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/style/global.scss";`
+      }
+    }
+  },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    coverage: {
+      provider: 'istanbul',
+      reporter: ['text', 'json', 'html'],
+    },
+  },
 })
