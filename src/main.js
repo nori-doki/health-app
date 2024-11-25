@@ -9,7 +9,6 @@ import 'webkul-micron/dist/script/micron.min.js';
 import 'webkul-micron/dist/css/micron.min.css';
 
 // Style
-import '@/style/reset.css';
 import 'primeicons/primeicons.css'
 
 

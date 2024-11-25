@@ -3,7 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LandingPage from '../views/LandingPage.vue';
 import About from '../views/About.vue';
 import SignUp from '../views/SignUp.vue';
-import Method from '../views/Method.vue'
+import Method from '../views/Method.vue';
+import Home from '../views/Home.vue';
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
     path: '/method',
     name: 'Method',
     component: Method,
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: Home,
   },
 ];
 

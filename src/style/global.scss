@@ -19,13 +19,16 @@ $font-base : 20px;
 $font-title-big : 40px;
 $font-title-medium : 30px;
 $font-subtitle : 25px;
+$font-small : 16px;
+$font-biggest : 60px;
 
 // Color
-$base-green: rgba(31, 251, 150, 1);
-$base-shade:rgba(0, 0, 86, 0.1);
-$base-yellow:rgba(255, 253, 0, 1);
-$base-pink: rgb(255, 0, 153, 1);
-
+$base-green: #1ffb96;
+$base-shade:#0000561a;
+$base-yellow:#fffd00;
+$base-pink: #ff0099;
+$base-light-grey: #ffffff1a;
+$base-orange: #ff8800;
 // Custom styles 
 
 .pink-background {
@@ -50,6 +53,5 @@ $base-pink: rgb(255, 0, 153, 1);
     font-weight: 500;
 }
 .subtitle {
-
     text-decoration: underline dotted;
 }
