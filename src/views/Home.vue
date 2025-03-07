@@ -16,6 +16,7 @@
                 <p class="home-donut-chart-content-comment">{{ gradeComment(userData.grade) }}</p>
             </div>
         </div>
+        <WeekOverview />
     </div>
 </template>
 
@@ -23,8 +24,11 @@
 import { Chart as ChartJS, ArcElement } from 'chart.js';
 import { Doughnut } from 'vue-chartjs'
 import { ref, onMounted, computed } from 'vue';
+import WeekOverview from '../components/molecules/weekOverview.vue';
+import { ScoreService } from '@/services/score.service';
 
 onMounted(() => {
+    getDailyScores();
     createDonutChart();
 });
 
@@ -32,7 +36,8 @@ onMounted(() => {
 ChartJS.register(ArcElement);
 const userData = ref({
     name: 'Nori',
-    grade: 0,
+    grade: 60,
+
 });
 let data = ref({
     datasets: [
@@ -67,7 +72,7 @@ function createDonutChart() {
 function getDonutColorArray(grade) {
     if(!grade) return ['#fcfcfc'];
     if(grade && grade < 60) return ['#ff0099', '#fcfcfc'];
-    if(60 <= grade  && grade < 80) return ['#fffd00', '#fcfcfc'];
+    if(60 <= grade  && grade < 80) return ['#ff6a00', '#fcfcfc'];
     if(grade >= 80) return ['#1ffb96', '#fcfcfc'];
 };
 function gradeComment (grade) {
@@ -78,6 +83,17 @@ function gradeComment (grade) {
     if(grade >= 95) return 'Excellent!';
 };
 
+// Week Overview
+async function getDailyScores() {
+    console.log('getDailyScores');
+    try {
+        const dailyScores = await ScoreService.getDailyScores()
+        console.log('dailyScores', dailyScores);
+    } catch (error) {
+        console.error('Error getting daily scores', error);
+    }
+
+};
 </script>
 
 <style lang="scss">
@@ -94,6 +110,7 @@ function gradeComment (grade) {
         max-width: 250px;
         max-height: 250px;
         margin: auto;
+        margin-bottom: 30px;
         position: relative;
 
         &-content {
