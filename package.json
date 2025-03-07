@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@lottiefiles/dotlottie-vue": "^0.4.18",
+    "axios": "^1.7.8",
     "chart.js": "^4.4.6",
     "primeicons": "^7.0.0",
     "primevue": "^4.0.5",
