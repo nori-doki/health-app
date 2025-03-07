@@ -50,12 +50,12 @@ export class ScoreService {
     }
 
     static async getMonthlyScore(month) {
-        const response = await axiosClient.get(`/scores/monthly/${month}`);
+        const response = await axios.get(`/scores/monthly/${month}`);
         return response.data;
     }
 
     static async recalculateScores() {
-        const response = await axiosClient.post('/scores/recalculate');
+        const response = await axios.post('/scores/recalculate');
         return response.data;
     }
 }

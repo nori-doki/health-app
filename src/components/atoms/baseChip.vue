@@ -6,7 +6,10 @@
 <script setup>
 import { computed } from 'vue';
 const props = defineProps({
-    value: Number || null,
+    value: { 
+        type: Number, 
+        default: null 
+    },
 });
 const chipColor = computed(() => {
     if(props.value === null) return '--grey';
