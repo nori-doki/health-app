@@ -5,6 +5,7 @@ import About from '../views/About.vue';
 import SignUp from '../views/SignUp.vue';
 import Method from '../views/Method.vue';
 import Home from '../views/Home.vue';
+import Form from '../views/Form.vue'
 
 const routes = [
   {
@@ -32,6 +33,11 @@ const routes = [
     name: 'Home',
     component: Home,
   },
+  {
+    path: '/form',
+    name: 'Form',
+    component: Form
+  }
 ];
 
 const router = createRouter({

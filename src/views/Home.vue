@@ -16,6 +16,12 @@
                 <p class="home-donut-chart-content-comment">{{ gradeComment(userData.grade) }}</p>
             </div>
         </div>
+        <Button 
+            label="Log Your Day" 
+            class="home-form-button" 
+            data-micron="blink"
+            @click="goToForm"
+        ></Button>  
         <WeekOverview />
     </div>
 </template>
@@ -26,6 +32,9 @@ import { Doughnut } from 'vue-chartjs'
 import { ref, onMounted, computed } from 'vue';
 import WeekOverview from '../components/molecules/weekOverview.vue';
 import { ScoreService } from '@/services/score.service';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 onMounted(() => {
     getDailyScores();
@@ -36,7 +45,7 @@ onMounted(() => {
 ChartJS.register(ArcElement);
 const userData = ref({
     name: 'Nori',
-    grade: 60,
+    grade: 81,
 
 });
 let data = ref({
@@ -72,7 +81,7 @@ function createDonutChart() {
 function getDonutColorArray(grade) {
     if(!grade) return ['#fcfcfc'];
     if(grade && grade < 60) return ['#ff0099', '#fcfcfc'];
-    if(60 <= grade  && grade < 80) return ['#ff6a00', '#fcfcfc'];
+    if(60 <= grade  && grade < 80) return ['#fffd00', '#fcfcfc'];
     if(grade >= 80) return ['#1ffb96', '#fcfcfc'];
 };
 function gradeComment (grade) {
@@ -83,12 +92,14 @@ function gradeComment (grade) {
     if(grade >= 95) return 'Excellent!';
 };
 
+function goToForm() {
+    router.push('/form')
+}
+
 // Week Overview
 async function getDailyScores() {
-    console.log('getDailyScores');
     try {
         const dailyScores = await ScoreService.getDailyScores()
-        console.log('dailyScores', dailyScores);
     } catch (error) {
         console.error('Error getting daily scores', error);
     }
@@ -99,7 +110,7 @@ async function getDailyScores() {
 <style lang="scss">
 .home {
     padding: 50px 15px;
-    border: 1px solid black;
+    // border: 1px solid black;
 
     &-title {
         margin-bottom: 50px;
@@ -129,6 +140,24 @@ async function getDailyScores() {
                 margin: 0;
                 font-size: 16px;
             }
+        }
+    }
+
+    .p-button {
+        width: fit-content;
+        margin: 20px auto;
+        padding: 12px 20px;
+        font-size: 18px;
+        text-align: center;
+        color: black;
+        border-radius: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        display: block;
+        font-weight: 500;
+
+        .p-button-icon {
+            margin: 5px 10px;
         }
     }
 }

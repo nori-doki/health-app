@@ -80,7 +80,10 @@ onMounted(() => {
     &-nav {
         width: fit-content;
         margin: 70px auto;
-        z-index: 100;
+
+        &-button {
+            z-index: 100;
+        }
     }
     .p-button {
         padding: 5px;

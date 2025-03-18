@@ -13,7 +13,7 @@ const props = defineProps({
 });
 const chipColor = computed(() => {
     if(props.value === null) return '--grey';
-    if(props.value && props.value < 60) return '--orange';
+    if(props.value && props.value < 60) return '--pink';
     if(60 <= props.value  && props.value < 80) return '--yellow';
     if(props.value >= 80) return '--green';
 });
@@ -30,7 +30,7 @@ const chipColor = computed(() => {
         &.--grey {
             background-color: $base-light-grey;
         }
-        &.--orange {
+        &.--pink {
             background-color: $base-pink;
         }
         &.--yellow {
