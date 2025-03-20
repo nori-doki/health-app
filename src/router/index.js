@@ -5,7 +5,7 @@ import About from '../views/About.vue';
 import SignUp from '../views/SignUp.vue';
 import Method from '../views/Method.vue';
 import Home from '../views/Home.vue';
-import Form from '../views/Form.vue'
+import Form from '../views/Form.vue';
 
 const routes = [
   {
@@ -17,11 +17,17 @@ const routes = [
     path: '/about',
     name: 'About',
     component: About,
+    meta: {
+      layout: "default",
+    },
   },
   {
     path: '/signUp',
     name: 'SignUp',
     component: SignUp,
+    meta: {
+      layout: "default",
+    },
   },
   {
     path: '/method',
@@ -32,11 +38,17 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home,
+    meta: {
+      layout: "default",
+    },
   },
   {
     path: '/form',
     name: 'Form',
-    component: Form
+    component: Form,
+    meta: {
+      layout: "default",
+    },
   }
 ];
 

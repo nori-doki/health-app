@@ -61,7 +61,6 @@ const weekData = ref([
 ]);
 
 function isToday(day) {
-    console.log('day:', day)
     // return getDateInTimestamp(day) === date.getDate();
     return day === '21'
 }

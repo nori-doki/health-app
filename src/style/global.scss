@@ -28,7 +28,13 @@ $base-shade:#0000561a;
 $base-yellow:#fffd00;
 $base-pink: #ff0099;
 $base-light-grey: #ffffff1a;
-$base-orange: #ff6a00;
+$base-orange: #ff7c1e;
+$base-red: #ff0000;
+
+$gradient-red: linear-gradient(to bottom, #ffffff, $base-red, $base-red);
+$gradient-green: linear-gradient(to bottom, #ffffff, $base-green, $base-green);
+$gradient-orange: linear-gradient(to bottom, #ffffff, $base-orange, $base-orange);
+$gradient-light-grey: linear-gradient(to bottom, #ffffff, $base-light-grey, $base-light-grey);
 // Custom styles 
 
 .pink-background {

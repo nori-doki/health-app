@@ -1,6 +1,5 @@
 <template>
     <div class="about pink-background" id="top">
-        <BaseLogo class="about-logo" />
         <h1 class="about-title big-title">Frequently Asked Questions</h1>
         <div class="about-section">
             <div v-for="(question, index) in questions" class="about-summary subtitle" :key="index"
