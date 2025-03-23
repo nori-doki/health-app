@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue"
+import { ref, onMounted } from "vue"
 import Typed from 'typed.js';
 import useNavigate from "@/composables/useNavigate.js"
 
@@ -37,7 +37,7 @@ const callToActionList = ref([
         label: "Login",
         icon: "pi pi-lock-open",
         color: "white",
-        // route : '/login'
+        route : '/login'
     },
     {
         id: "about",
@@ -80,35 +80,20 @@ onMounted(() => {
     &-nav {
         width: fit-content;
         margin: 70px auto;
-        z-index: 100;
+
+        &-button {
+            z-index: 100;
+        }
     }
     .p-button {
-        padding: 5px;
-        width: 170px;
-        margin: 25px;
-        border-radius: 10px;
-        color: rgb(0, 0, 0);
-        font-size: 20px;
+        width: 180px;
         display: flex;
         flex-direction: row-reverse;
+        justify-content: center;
+
 
         .p-button-icon {
             margin: 5px 10px;
-        }
-    }
-    
-    .p-button.landing-page-nav-button {
-        background-color: white;
-        box-shadow: 5px 5px 1px 1px $base-shade;
-
-        .-green {
-            // background-color: rgb(186, 226, 165);
-            // background-color: $base-green;
-        }
-        .-white {
-            background-color: white;
-            // border: 1px solid black;
-            box-shadow: 5px 5px 1px 1px $base-shade;
         }
     }
 }

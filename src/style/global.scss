@@ -28,7 +28,13 @@ $base-shade:#0000561a;
 $base-yellow:#fffd00;
 $base-pink: #ff0099;
 $base-light-grey: #ffffff1a;
-$base-orange: #ff6a00;
+$base-orange: #ff7c1e;
+$base-red: #ff0000;
+
+$gradient-red: linear-gradient(to bottom, #ffffff, $base-red, $base-red);
+$gradient-green: linear-gradient(to bottom, #ffffff, $base-green, $base-green);
+$gradient-orange: linear-gradient(to bottom, #ffffff, $base-orange, $base-orange);
+$gradient-light-grey: linear-gradient(to bottom, #ffffff, $base-light-grey, $base-light-grey);
 // Custom styles 
 
 .pink-background {
@@ -54,4 +60,42 @@ $base-orange: #ff6a00;
 }
 .subtitle {
     text-decoration: underline dotted;
+}
+
+// Primevue components
+.p-button {
+    width: fit-content;
+    margin: 20px auto;
+    padding: 12px 20px;
+    font-size: 18px;
+    text-align: center;
+    color: black;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: block;
+    font-weight: 500;
+    background-color: white;
+
+    .p-button-icon {
+        margin: 5px 10px;
+    }
+}
+
+// animations
+
+.zoom-in-out-animation {
+    animation: zoom-in-zoom-out 1s ease infinite;
+}
+
+@keyframes zoom-in-zoom-out {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

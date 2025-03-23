@@ -16,6 +16,12 @@
                 <p class="home-donut-chart-content-comment">{{ gradeComment(userData.grade) }}</p>
             </div>
         </div>
+        <Button 
+            label="Log Your Day" 
+            class="home-form-button" 
+            data-micron="blink"
+            @click="goToForm"
+        ></Button>  
         <WeekOverview />
     </div>
 </template>
@@ -26,6 +32,9 @@ import { Doughnut } from 'vue-chartjs'
 import { ref, onMounted, computed } from 'vue';
 import WeekOverview from '../components/molecules/weekOverview.vue';
 import { ScoreService } from '@/services/score.service';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 onMounted(() => {
     getDailyScores();
@@ -36,7 +45,7 @@ onMounted(() => {
 ChartJS.register(ArcElement);
 const userData = ref({
     name: 'Nori',
-    grade: 60,
+    grade: 81,
 
 });
 let data = ref({
@@ -71,24 +80,26 @@ function createDonutChart() {
 };
 function getDonutColorArray(grade) {
     if(!grade) return ['#fcfcfc'];
-    if(grade && grade < 60) return ['#ff0099', '#fcfcfc'];
-    if(60 <= grade  && grade < 80) return ['#ff6a00', '#fcfcfc'];
+    if(grade && grade < 50) return ['#ff0099', '#fcfcfc'];
+    if(50 <= grade  && grade < 80) return ['#fffd00', '#fcfcfc'];
     if(grade >= 80) return ['#1ffb96', '#fcfcfc'];
 };
 function gradeComment (grade) {
     if(!grade) return '';
-    if(grade && grade < 60) return 'You can still do it!';
-    if(grade >= 60 && grade < 80) return 'Almost there!';
+    if(grade && grade < 50) return 'You can still do it!';
+    if(grade >= 50 && grade < 80) return 'Almost there!';
     if(grade >= 80  && grade < 95) return 'Great job! Keep going!';
     if(grade >= 95) return 'Excellent!';
 };
 
+function goToForm() {
+    router.push('/form')
+}
+
 // Week Overview
 async function getDailyScores() {
-    console.log('getDailyScores');
     try {
         const dailyScores = await ScoreService.getDailyScores()
-        console.log('dailyScores', dailyScores);
     } catch (error) {
         console.error('Error getting daily scores', error);
     }
@@ -98,11 +109,10 @@ async function getDailyScores() {
 
 <style lang="scss">
 .home {
-    padding: 50px 15px;
-    border: 1px solid black;
+    padding: 10px;
 
     &-title {
-        margin-bottom: 50px;
+        margin-bottom: 30px;
         margin-left: 30px;
         font-size: $font-title-big;
     }
@@ -110,7 +120,6 @@ async function getDailyScores() {
         max-width: 250px;
         max-height: 250px;
         margin: auto;
-        margin-bottom: 30px;
         position: relative;
 
         &-content {
@@ -122,7 +131,6 @@ async function getDailyScores() {
 
             &-grade {
                 font-size: 60px;
-                // font-weight: bold;
                 margin-bottom: 10px;
             }
             &-comment {
