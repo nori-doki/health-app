@@ -109,11 +109,10 @@ async function getDailyScores() {
 
 <style lang="scss">
 .home {
-    padding: 20px;
-    // border: 1px solid black;
+    padding: 10px;
 
     &-title {
-        margin-bottom: 50px;
+        margin-bottom: 30px;
         margin-left: 30px;
         font-size: $font-title-big;
     }
@@ -121,7 +120,6 @@ async function getDailyScores() {
         max-width: 250px;
         max-height: 250px;
         margin: auto;
-        margin-bottom: 30px;
         position: relative;
 
         &-content {
@@ -140,24 +138,6 @@ async function getDailyScores() {
                 margin: 0;
                 font-size: 16px;
             }
-        }
-    }
-
-    .p-button {
-        width: fit-content;
-        margin: 20px auto;
-        padding: 12px 20px;
-        font-size: 18px;
-        text-align: center;
-        color: black;
-        border-radius: 30px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-        display: block;
-        font-weight: 500;
-
-        .p-button-icon {
-            margin: 5px 10px;
         }
     }
 }
