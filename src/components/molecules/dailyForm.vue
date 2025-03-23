@@ -189,7 +189,6 @@ function goToHomePage(){
             &-chip {
                 scale: 0.8;
                 margin-bottom: 0.3rem;
-                // transition: scale 0.1s ease-in-out;
                 transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
 
                 &.checked {
@@ -216,11 +215,6 @@ function goToHomePage(){
             background-color: $base-green !important;
             font-weight: 600 !important;
             color: white !important;
-        }
-        &-leave {
-            // background-color: $base-red !important;
-            // font-weight: 600 !important;
-            // color: white !important;
         }
     }
 }

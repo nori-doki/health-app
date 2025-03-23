@@ -85,9 +85,7 @@ function isToday(day) {
     .week-overview-day {
         width: 13%;
         padding: 0.5rem;
-        // border-radius: 10px;
-        // background-color: #fff;
-        // box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        
         .week-overview-day-header {
             display: flex;
             flex-direction: column;

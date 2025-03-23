@@ -16,11 +16,8 @@ const { getTodayInDDMMYYYY } = useHandleDate();
 <style lang="scss">
 .form {
     text-align: center;
-    // padding: 15px 15px;
 
     &-title {
-        // display: flex;
-        // border-bottom: 1px solid black;
         font-size: 30px;
         padding-bottom: 10px;
         font-weight: 500;
@@ -29,7 +26,6 @@ const { getTodayInDDMMYYYY } = useHandleDate();
 
     &-subtitle {
         font-size: 24px;
-        // margin-bottom: 10px;
         font-size: 24px;
     }
 

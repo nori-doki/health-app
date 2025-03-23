@@ -131,7 +131,6 @@ async function getDailyScores() {
 
             &-grade {
                 font-size: 60px;
-                // font-weight: bold;
                 margin-bottom: 10px;
             }
             &-comment {
