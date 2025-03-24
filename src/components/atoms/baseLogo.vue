@@ -24,7 +24,7 @@
     &-color {
         font-size: 60px;
         font-weight: bold;
-        background: linear-gradient(rgba(255, 253, 0, 1) 10%, rgba(31, 251, 150, 1) 100%);
+        background: $base-gradient;
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;

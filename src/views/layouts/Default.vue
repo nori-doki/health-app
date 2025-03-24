@@ -1,6 +1,7 @@
 <template>
     <div class="default-layout">
         <header class="default-layout-header">
+            <burger-menu />
             <base-logo class="default-layout-header-logo" />
         </header>
         <main class="default-layout-main">
@@ -10,6 +11,7 @@
 </template>
 
 <script setup>
+import BurgerMenu from '@/components/molecules/BurgerMenu.vue';
 </script>
 
 <style lang="scss">
