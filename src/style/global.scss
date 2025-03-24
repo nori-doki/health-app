@@ -31,6 +31,7 @@ $base-light-grey: #ffffff1a;
 $base-orange: #ff7c1e;
 $base-red: #ff0000;
 
+$base-gradient: linear-gradient(rgba(255, 253, 0, 1) 10%, rgba(31, 251, 150, 1) 100%);
 $gradient-red: linear-gradient(to bottom, #ffffff, $base-red, $base-red);
 $gradient-green: linear-gradient(to bottom, #ffffff, $base-green, $base-green);
 $gradient-orange: linear-gradient(to bottom, #ffffff, $base-orange, $base-orange);

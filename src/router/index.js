@@ -6,6 +6,8 @@ import SignUp from '../views/SignUp.vue';
 import Method from '../views/Method.vue';
 import Home from '../views/Home.vue';
 import Form from '../views/Form.vue';
+import Analytics from '../views/Analytics.vue';
+import Profile from '../views/Profile.vue';
 
 const routes = [
   {
@@ -46,6 +48,22 @@ const routes = [
     path: '/form',
     name: 'Form',
     component: Form,
+    meta: {
+      layout: "default",
+    },
+  },
+  {
+    path: '/analytics',
+    name: 'Analytics',
+    component: Analytics,
+    meta: {
+      layout: "default",
+    },
+  }, 
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
     meta: {
       layout: "default",
     },

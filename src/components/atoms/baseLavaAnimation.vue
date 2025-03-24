@@ -54,22 +54,16 @@ onMounted(() => {
             left:0;
             right:0;
             height:1rem;
-            background:linear-gradient(
-                rgba(255, 253, 0, 1) 0%, 
-                rgba(31, 251, 150, 1) 100%
-            );
+            background: $base-gradient;
             filter:url("#blob");
             height: fit-content;
             .bubble {
                 position: absolute;
                 left:var(--position, 50%);
-                background:linear-gradient(
-                    rgba(255, 253, 0, 1) 0%, 
-                    rgba(31, 251, 150, 1) 100%
-                );
+                background: $base-gradient;
                 border-radius:100%;
                 animation:bubble-size var(--time, 4s) ease-in infinite var(--delay, 0s),
-                    bubble-move var(--time, 4s) ease-in infinite var(--delay, 0s);
+                    bubble-move var(--time, 5s) ease-in infinite var(--delay, 0s);
                 transform:translate(-50%, 100%);
             }
         }
