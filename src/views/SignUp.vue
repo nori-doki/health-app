@@ -6,31 +6,64 @@
                 <label for="email">Email *</label>
                 <input type="email" id="email" name="email" required v-model="email"
                 :valid="emailIsValid"
-                :class="{ 'invalid': !emailIsValid }">
-                <p v-if="!emailIsValid" class="sign-up-form-item-error">Your email is not valid.</p>
+                :class="{ 'invalid': email.length > 0 && !emailIsValid }">
+                <p v-show="email.length > 0 && !emailIsValid" class="sign-up-form-item-error">Your email is not valid.</p>
             </div>
             <div class="sign-up-form-item">
                 <label for="password">Password *</label>
-                <input type="password" id="password" name="password" required v-model="password">
-                {{ password }}
+                <input :type="passwordInputType" id="password" name="password" required v-model="password">
+                <div class="sign-up-form-item-password-eye">
+                    <i v-if="showPassword" @click="showPassword = !showPassword" class="pi pi-eye"></i>
+                    <i v-else @click="showPassword = !showPassword" class="pi pi-eye-slash"></i>
+                </div>
+                <ul class="sign-up-form-item-password-requirements">
+                    <p>Password must contain:</p>
+                    <li :class="{ 'valid': passwordHasLowercase }">
+                        At least one lowercase 
+                        <span v-show="passwordHasLowercase">✅</span>
+                    </li>
+                    <li :class="{ 'valid': passwordHasUppercase }">
+                        At least one uppercase 
+                        <span v-show="passwordHasUppercase">✅</span>
+                    </li>
+                    <li :class="{ 'valid': passwordHasNumeric }">
+                        At least one numeric 
+                        <span v-show="passwordHasNumeric">✅</span>
+                    </li>
+                    <li :class="{ 'valid': passwordHasSpecialCharacter }">
+                        At least one special character 
+                        <span v-show="passwordHasSpecialCharacter">✅</span>
+                    </li>
+                    <li :class="{ 'valid': passwordIs8CharactersLong }">
+                        Minimum 8 characters 
+                        <span v-show="passwordIs8CharactersLong">✅</span>
+                    </li>
+                </ul>
             </div>
             <div class="sign-up-form-item">
                 <label for="confirmPassword">Confirm Password *</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required v-model="confirmPassword">
-                {{ confirmPassword }}
+                <input :type="confirmPasswordInputType" id="confirmPassword" name="confirmPassword" required v-model="confirmPassword" :class="{ 'invalid': confirmPassword.length > 0 && !passwordsMatch }"  autocomplete="off">
+                <div class="sign-up-form-item-password-eye">
+                    <i v-if="showConfirmPassword" @click="showConfirmPassword = !showConfirmPassword" class="pi pi-eye"></i>
+                    <i v-else @click="showConfirmPassword = !showConfirmPassword" class="pi pi-eye-slash"></i>
+                </div>
+                <p v-show="confirmPassword.length > 0 && !passwordsMatch" class="sign-up-form-item-error">Passwords do not match.</p>
             </div>
             <div class="sign-up-form-item">
                 <label for="nickname">Nickname *</label>
                 <input type="text" id="nickname" name="nickname" required v-model="nickname">
-                {{ nickname }}
             </div>
             <div class="sign-up-form-item">
-                <label for="stepGoal">Step Goal *</label>
+                <label for="stepGoal">Step Goal * : <span>{{ stepGoal }} steps</span></label>
                 <input type="range" id="stepGoal" name="stepGoal" required
                 min="0" max="15000" step="500" v-model="stepGoal">
-                <span>{{ stepGoal }} steps</span>
             </div>
-                <button type="submit" class="sign-up-form-button">Sign Up</button>
+                <Button 
+                    type="submit" 
+                    class="sign-up-form-button" 
+                    :disabled="!isReadyToSubmit"
+                    :class="{ 'zoom-in-out-animation' : isReadyToSubmit }"
+                >Sign Up</Button>
         </form>
     </div>
 </template>
@@ -63,6 +96,30 @@ const emailIsValid = computed(() => {
     return emailRegex.test(email.value);
 });
 
+const passwordHasLowercase = computed(() => /[a-z]/.test(password.value));
+const passwordHasUppercase = computed(() => /[A-Z]/.test(password.value));
+const passwordHasNumeric = computed(() => /[0-9]/.test(password.value));
+const passwordHasSpecialCharacter = computed(() => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password.value));
+const passwordIs8CharactersLong = computed(() => password.value.length >= 8);
+const passwordsMatch = computed(() => password.value === confirmPassword.value);
+
+const isReadyToSubmit = computed(() => {
+    return emailIsValid.value
+        && passwordHasLowercase.value
+        && passwordHasUppercase.value
+        && passwordHasNumeric.value
+        && passwordHasSpecialCharacter.value
+        && passwordIs8CharactersLong.value
+        && passwordsMatch.value
+        && nickname.value.length > 0
+        && stepGoal.value > 0;
+});
+
+const showPassword = ref(false);
+const passwordInputType = computed(() => showPassword.value ? 'text' : 'password');
+const showConfirmPassword = ref(false);
+const confirmPasswordInputType = computed(() => showConfirmPassword.value ? 'text' : 'password');
+
 </script>
 
 <style lang="scss">
@@ -72,6 +129,7 @@ const emailIsValid = computed(() => {
     align-items: center;
     justify-content: center;
     font-weight: 500;
+    margin-bottom: 2rem;
 
     &-title {
         font-size: 2rem;
@@ -84,7 +142,9 @@ const emailIsValid = computed(() => {
         &-item {
             display: flex;
             flex-direction: column;
-            margin: 1rem;
+            margin: 0.8rem;
+            min-height: 5.4rem;
+            position: relative;
 
             label {
                 margin-bottom: 0.4rem;
@@ -103,15 +163,76 @@ const emailIsValid = computed(() => {
                 }
             }
 
+            input[type="range"] {
+                -webkit-appearance: none;
+                appearance: none;
+                background: transparent;
+                cursor: pointer;
+                border: none;
+                color: $base-pink;
+                &::-webkit-slider-runnable-track {
+                    width: 100%;
+                    height: 0.5rem;
+                    cursor: pointer;
+                    background: linear-gradient(
+                        to right,
+                        rgba(255, 253, 0, 1), 
+                        rgba(255, 253, 0, 1), 
+                        rgba(31, 251, 150, 1),
+                        rgba(255, 253, 0, 1)
+                        );
+                    border-radius: 0.5rem;
+                }
+                &::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    width: 1rem;
+                    height: 1rem;
+                    border-radius: 50%;
+                    background: $base-pink;
+                    cursor: pointer;
+                    margin-top: -0.25rem;
+                }
+            }
+
             &-error {
                 color: red;
                 font-size: 1rem;
                 margin: 0.2rem;
             }
+
+            &-password-requirements {
+                font-size: 1rem;
+                margin-top: 0.6rem;
+                list-style-type: disc;
+                padding-left: 0;
+
+                li {
+                    margin: 0.3rem 0 0.3rem 1rem;
+                }
+
+                .valid {
+                    color: green;
+                }
+            }
+
+            &-password-eye {
+                position: absolute;
+                right: 1rem;
+                top: 2.2rem;
+                cursor: pointer;
+            }
         }
 
         &-button {
+            background-color: $base-green !important;
+            font-weight: 600 !important;
+            color: white !important;
+            width: 250px !important;
 
+            &[disabled] {
+                cursor: not-allowed;
+            }
         }
     }
 }

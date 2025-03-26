@@ -1,6 +1,6 @@
 <template>
     <div class="burger-menu">
-        <Slide :width="viewportWidth">
+        <Slide width="250">
             <a v-for="item in menuItems" :id="item.id" :href="item.href">
                 <i :class="item.icon"></i><span>{{ item.text }}</span>
             </a>
@@ -13,7 +13,7 @@
 import { Slide } from 'vue3-burger-menu'; 
 import { computed } from 'vue';
 
-const viewportWidth = computed(() => window.innerWidth.toString() );
+const viewportWidth = computed(() => 250 );
 
 const menuItems = [
     { id: 'home', icon: 'pi pi-home', text: 'Home', href: '/home' },
