@@ -2,7 +2,7 @@
     <div class="default-layout">
         <header class="default-layout-header">
             <burger-menu v-if="!isVisitorRoutes" />
-            <span class="default-layout-header-arrow" @click="router.go(-1)">
+            <span v-else class="default-layout-header-arrow" @click="router.go(-1)">
                 <i class="pi pi-arrow-left"></i>
             </span>
             <base-logo class="default-layout-header-logo" />

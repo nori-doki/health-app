@@ -58,12 +58,18 @@
                 <input type="range" id="stepGoal" name="stepGoal" required
                 min="0" max="15000" step="500" v-model="stepGoal">
             </div>
+            <div class="sign-up-form-bottom">
                 <Button 
+                    v-if="!loading"
                     type="submit" 
                     class="sign-up-form-button" 
                     :disabled="!isReadyToSubmit"
                     :class="{ 'zoom-in-out-animation' : isReadyToSubmit }"
-                >Sign Up</Button>
+                >
+                    Sign Up
+                </Button>
+                <div v-else class="loader"></div>
+            </div>
         </form>
     </div>
 </template>
@@ -71,6 +77,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { supabase } from '@/services/supabase.js';
 
 const router = useRouter();
 
@@ -79,16 +86,26 @@ const password = ref('');
 const confirmPassword = ref('');
 const nickname = ref('');
 const stepGoal = ref(0);
+const loading = ref(false);
 
-const handleSubmit = () => {
+async function handleSubmit(){
     const payload = {
         email: email.value.toLocaleLowerCase(),
         password: password.value,
         nickname: nickname.value,
         stepGoal: stepGoal.value,
     };
-    console.log('payload:', payload)
-    // router.push('/');
+    loading.value = true;
+    const { data, error } = await supabase.auth.signUp(payload);
+
+    if (error) {
+        console.error('Error signing up:', error.message);
+        loading.value = false;
+        return;
+    } else {
+        console.log('User signed up:', data.user);
+        router.push('/home');
+    }
 }
 
 const emailIsValid = computed(() => {
@@ -132,7 +149,7 @@ const confirmPasswordInputType = computed(() => showConfirmPassword.value ? 'tex
     margin-bottom: 2rem;
 
     &-title {
-        font-size: 2rem;
+        font-size: $font-title-medium;
         margin: 1.5rem;
     }
 
@@ -142,8 +159,8 @@ const confirmPasswordInputType = computed(() => showConfirmPassword.value ? 'tex
         &-item {
             display: flex;
             flex-direction: column;
-            margin: 0.8rem;
-            min-height: 5.4rem;
+            margin: 0.4rem 0.8rem 0.4rem;
+            min-height: 5.1rem;
             position: relative;
 
             label {
@@ -155,7 +172,7 @@ const confirmPasswordInputType = computed(() => showConfirmPassword.value ? 'tex
                 border: 1px solid #ccc;
                 border-radius: 0.5rem;
                 font-family: 'Quicksand', sans-serif;
-                font-size: 1rem;
+                font-size: $font-small;
                 font-weight: 500;
 
                 &.invalid {
@@ -197,12 +214,12 @@ const confirmPasswordInputType = computed(() => showConfirmPassword.value ? 'tex
 
             &-error {
                 color: red;
-                font-size: 1rem;
+                font-size: $font-small;
                 margin: 0.2rem;
             }
 
             &-password-requirements {
-                font-size: 1rem;
+                font-size: $font-small;
                 margin-top: 0.6rem;
                 list-style-type: disc;
                 padding-left: 0;
@@ -223,7 +240,9 @@ const confirmPasswordInputType = computed(() => showConfirmPassword.value ? 'tex
                 cursor: pointer;
             }
         }
-
+        &-bottom {
+            margin-top: -1rem;
+        }
         &-button {
             background-color: $base-green !important;
             font-weight: 600 !important;
@@ -232,6 +251,7 @@ const confirmPasswordInputType = computed(() => showConfirmPassword.value ? 'tex
 
             &[disabled] {
                 cursor: not-allowed;
+                background-color: #ccc !important;
             }
         }
     }

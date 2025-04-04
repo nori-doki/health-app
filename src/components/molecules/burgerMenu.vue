@@ -11,9 +11,6 @@
 
 <script setup>
 import { Slide } from 'vue3-burger-menu'; 
-import { computed } from 'vue';
-
-const viewportWidth = computed(() => 250 );
 
 const menuItems = [
     { id: 'home', icon: 'pi pi-home', text: 'Home', href: '/home' },

@@ -8,12 +8,21 @@ import Home from '../views/Home.vue';
 import Form from '../views/Form.vue';
 import Analytics from '../views/Analytics.vue';
 import Profile from '../views/Profile.vue';
+import Login from '../views/Login.vue';
 
 const routes = [
   {
     path: '/',
     name: 'LandingPage',
     component: LandingPage,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    meta: {
+      layout: "default",
+    },
   },
   {
     path: '/about',
