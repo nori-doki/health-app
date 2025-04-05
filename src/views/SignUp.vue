@@ -78,6 +78,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { supabase } from '@/services/supabase.js';
+import { AuthService } from '@/services/auth.service';
 
 const router = useRouter();
 
@@ -92,19 +93,24 @@ async function handleSubmit(){
     const payload = {
         email: email.value.toLocaleLowerCase(),
         password: password.value,
-        nickname: nickname.value,
-        stepGoal: stepGoal.value,
+        options: {
+            data: {
+                nickname: nickname.value,
+                step_goal: stepGoal.value,
+            },
+        },
     };
     loading.value = true;
-    const { data, error } = await supabase.auth.signUp(payload);
+    const { data, error } = await AuthService.signUp(payload);
 
     if (error) {
         console.error('Error signing up:', error.message);
         loading.value = false;
         return;
     } else {
-        console.log('User signed up:', data.user);
-        router.push('/home');
+        setTimeout(() => {
+            router.push('/home');
+        }, 1000);
     }
 }
 
