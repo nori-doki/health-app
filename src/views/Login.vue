@@ -19,9 +19,10 @@
                 </div>
                 <p v-show="loginError" class="login-form-item-error">Invalid email or password.</p>
             </div>
-            <Button type="submit" class="login-form-submit" 
+            <Button v-if="!isLoading" type="submit" class="login-form-submit" 
                 :disabled="!isReadyToSubmit"
             >Login</Button>
+            <div v-else class="loader"></div>
             <div class="login-form-item">
                 <a class="login-form-item-signup" href="/signUp">Don't have an account? Sign up here.</a>
             </div>
@@ -32,6 +33,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { AuthService } from '@/services/auth.service';
 
 const router = useRouter();
 
@@ -47,21 +49,30 @@ const emailIsValid = computed(() => {
 const isReadyToSubmit = computed(() => emailIsValid.value && password.value.length > 0);
 
 const loginError = ref(false);
+const isLoading = ref(false);
 
 
 async function handleLogin() {
-    try {
-        loginError.value = false;
-        const payload = {
-            email: email.value.toLocaleLowerCase(),
-            password: password.value,
-        };
-        console.log('payload:', payload)
-        router.push('/home');
-    } catch (error) {
+    loginError.value = false;
+    isLoading.value = true;
+    const payload = {
+        email: email.value.toLocaleLowerCase(),
+        password: password.value,
+    };
+    const { user, session, error } = await AuthService.logIn(payload);
+    if (error) {
         loginError.value = true;
         console.error('Error logging in:', error);
+        isLoading.value = false;
+        return;
     }
+    if (user) {
+        console.log('User logged in:', user);
+    }
+    if (session) {
+        console.log('Session:', session);
+    }
+    router.push('/home');
 }
 </script>
 

@@ -77,7 +77,6 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { supabase } from '@/services/supabase.js';
 import { AuthService } from '@/services/auth.service';
 
 const router = useRouter();
