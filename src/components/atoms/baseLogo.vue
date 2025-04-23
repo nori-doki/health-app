@@ -1,6 +1,6 @@
 <template>
     <div class="base-logo">
-        <a href="/">
+        <a>
             <p class="base-logo-black">80to<span class="base-logo-color">100</span></p>
         </a>
     </div>

@@ -2,9 +2,8 @@
     <div class="container">
         <div class="main"></div>
         <div class="footer">
-            <div class="bubbles">
+            <div class="bubbles"></div>
         </div>
-    </div>
 
     <svg style="position: fixed; top: 0;">
         <defs>
@@ -21,7 +20,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-onMounted(() => {                
+onMounted(() => {
+    const container = document.querySelector('.bubbles');
+    if (!container) return;         
+
     for (let i = 0; i < 80; i++) {
         const bubble = document.createElement("div");
         bubble.className = "bubble";
@@ -30,7 +32,7 @@ onMounted(() => {
         --position:${-5 + Math.random() * 100}%; 
         --time:${3 + Math.random() * 7}s; 
         --delay:${-1 * (2 + Math.random() * 2)}s;`;
-        document.querySelector(".bubbles").appendChild(bubble);
+        container.appendChild(bubble);
     }
 })
 
