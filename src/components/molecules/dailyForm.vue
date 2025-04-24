@@ -1,7 +1,6 @@
 <template>
     <div class="daily-form">
         <form @submit.prevent="handleSubmit">
-            <!-- <div class="daily-form-icon">🍽️</div> -->
             <div v-for="item in foodItems" :key="item.value" class="daily-form-item">
                 <p>{{ item.label }}</p>
                 <div v-for="score in scores" :key="score" class="daily-form-item-scores">
@@ -11,7 +10,6 @@
                     </label>
                 </div>
             </div>
-            <!-- <div class="daily-form-icon">👟</div> -->
             <div v-for="item in physicalActivityItems" :key="item.value" class="daily-form-item">
                 <p>{{ item.label }}</p>
                 <div v-for="score in scores" :key="score" class="daily-form-item-scores">

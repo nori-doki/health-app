@@ -3,7 +3,7 @@
 body {
     font-family: "Quicksand", sans-serif;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 17px;
     height: 100vh;
     overflow: auto;
     margin: 0;
@@ -19,7 +19,7 @@ $font-base : 20px;
 $font-title-big : 40px;
 $font-title-medium : 30px;
 $font-subtitle : 25px;
-$font-small : 16px;
+$font-small : 15px;
 $font-biggest : 60px;
 
 // Color
@@ -98,5 +98,35 @@ $gradient-light-grey: linear-gradient(to bottom, #ffffff, $base-light-grey, $bas
     }
     100% {
         transform: scale(1);
+    }
+}
+
+// https://css-loaders.com/blob/
+.loader {
+    width: 120px;
+    height: 50px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    mix-blend-mode: darken;
+    margin: auto;
+}
+.loader:before,
+.loader:after {
+    content: "";
+    width: 30px;
+    border-radius: 50%;
+    background: $base-green;
+    animation: l3 1s infinite alternate;
+}
+.loader:after {
+    --s:-1;
+}
+@keyframes l3{
+    90%,
+    100% {
+        transform: translate(calc(var(--s,1)*30px))
     }
 }
