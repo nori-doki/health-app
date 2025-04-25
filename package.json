@@ -11,6 +11,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@hapi/hawk": "^8.0.0",
     "@lottiefiles/dotlottie-vue": "^0.4.18",
     "@supabase/supabase-js": "^2.49.4",
     "axios": "^1.7.8",
