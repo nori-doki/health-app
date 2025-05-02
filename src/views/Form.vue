@@ -8,6 +8,7 @@
 
 <script setup>
 import useHandleDate from '@/composables/useHandleDate';
+import DailyForm from '@/components/molecules/dailyForm.vue';
 
 const { getTodayInDDMMYYYY } = useHandleDate();
 

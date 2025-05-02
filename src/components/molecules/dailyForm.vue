@@ -21,6 +21,7 @@
             </div>
         </form>
         <Button
+            v-if="!isLoading"
             type="submit"
             class="daily-form-button daily-form-button-submit"
             :class="{ 'zoom-in-out-animation' : isReadyToSubmit }"
@@ -28,6 +29,7 @@
         >
             Submit
         </Button>
+        <div v-else class="loader"></div>
         <Button
             type="submit"
             class="daily-form-button daily-form-button-leave"
@@ -41,8 +43,12 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { ScoreService } from '@/services/score.service';
+import { useCookies } from "vue3-cookies";
 
 const router = useRouter();
+const { cookies } = useCookies();
+const isLoading = ref(false);
 
 const scores = [
     0,
@@ -52,18 +58,18 @@ const scores = [
 
 
 const formData = ref({
-    meal1: null,
-    meal2: null,
-    meal3: null,
+    meal_1: null,
+    meal_2: null,
+    meal_3: null,
     snack: null,
     steps: null,
     workout: null,
 });
 
 const coefficients = {
-    meal1: 2,
-    meal2: 2,
-    meal3: 2,
+    meal_1: 2,
+    meal_2: 2,
+    meal_3: 2,
     snack: 2,
     steps: 1,
     workout: 1
@@ -72,15 +78,15 @@ const coefficients = {
 const foodItems = [
     {
         label : '🍽️ Meal 1',
-        value : 'meal1',
+        value : 'meal_1',
     },
     {
         label : '🍽️ Meal 2',
-        value : 'meal2',
+        value : 'meal_2',
     },
     {
         label : '🍽️ Meal 3',
-        value : 'meal3',
+        value : 'meal_3',
     },
     {
         label : '🍎 Snack',
@@ -99,16 +105,32 @@ const physicalActivityItems = [
     },
 ];
 
-function handleSubmit(){
-    let payload = new FormData();
-    for (const key in formData.value) {
-        if (Object.hasOwnProperty.call(formData.value, key)) {
-            const element = formData.value[key];
-            console.log('element:', element)
-            payload.append(key, element);
-        }
+async function handleSubmit(){
+    isLoading.value = true;
+    const payload = {
+        user_id: cookies.get("user_id"),
+        meal_1: formData.value.meal_1,
+        meal_2: formData.value.meal_2,
+        meal_3: formData.value.meal_3,
+        snack: formData.value.snack,
+        steps: formData.value.steps,
+        workout: formData.value.workout,
+        mean_value: getMeanValue.value,
+        date: new Date().setHours(0, 0, 0, 0) - (1000 * 60 * 60 * 24 * 4),
+        // date: Date.now() - 86400000,
     };
-    console.log('payload:', payload);
+    const { data, error, status } = await ScoreService.addDailyScores(payload);
+    if (error) {
+        isLoading.value = false;
+        console.error('Error adding daily scores', error);
+        return;
+    };
+    if (status === 201) {
+        console.log('Daily scores added:', data);
+        setTimeout(() => {
+            router.push('/home');
+        }, 1000);
+    };
 };
 
 const getTotalScore = computed(() => {

@@ -19,10 +19,12 @@
     "primeicons": "^7.0.0",
     "primevue": "^4.0.5",
     "typed.js": "^2.1.0",
+    "universal-cookie": "^7.2.2",
     "vue": "^3.4.37",
     "vue-chartjs": "^5.3.2",
     "vue-router": "^4.4.3",
     "vue3-burger-menu": "^1.1.1",
+    "vue3-cookies": "^1.0.6",
     "webkul-micron": "^1.1.6"
   },
   "devDependencies": {
