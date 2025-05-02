@@ -116,7 +116,7 @@ async function handleSubmit(){
         steps: formData.value.steps,
         workout: formData.value.workout,
         mean_value: getMeanValue.value,
-        date: new Date().setHours(0, 0, 0, 0) - (1000 * 60 * 60 * 24 * 4),
+        date: new Date().setHours(0, 0, 0, 0),
         // date: Date.now() - 86400000,
     };
     const { data, error, status } = await ScoreService.addDailyScores(payload);

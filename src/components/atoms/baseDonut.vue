@@ -8,7 +8,7 @@
                 @click="createDonutChart"
             />
             <div class="donut-chart-content">
-                <p class="donut-chart-content-grade">{{ grade }}%</p>
+                <p v-if="grade" class="donut-chart-content-grade">{{ grade }}%</p>
                 <p class="donut-chart-content-comment">{{ gradeComment(grade) }}</p>
             </div>
         </div>
@@ -73,7 +73,7 @@ function getDonutColorArray(grade) {
 };
 
 function gradeComment (grade) {
-    if(!grade) return '';
+    if(!grade) return 'Log your data for the day ❤️';
     if(grade && grade < 50) return 'You can still do it!';
     if(grade >= 50 && grade < 80) return 'Almost there!';
     if(grade >= 80  && grade < 95) return 'Great job! Keep going!';

@@ -1,11 +1,15 @@
 <template>
     <div class="home">
         <div class="home-title">
-            <h1>Hello, {{ userData.name }}</h1>
+            <h1>Hello, username</h1>
         </div>
-        <BaseDonut 
-            :grade="userData.grade"
-        />
+        <div style="min-height: 250px; display: flex; justify-content: center; align-items: center;">
+            <BaseDonut 
+                v-if="!isLoading"
+                :grade="todayGrade"
+            />
+            <div v-else class="loader"></div>
+        </div>
         <Button 
             label="Log Your Day" 
             class="home-form-button" 
@@ -26,18 +30,35 @@ import BaseDonut from '../components/atoms/baseDonut.vue';
 
 const router = useRouter();
 const { cookies } = useCookies();
+const userId = cookies.get('user_id');
 
-onMounted(() => {
-    getDailyScores();
+onMounted(async () => {
+    isLoading.value = true;
+    await checkIfTodayScoreExists()
+    await getDailyScores();
+    setTimeout(() => {
+        isLoading.value = false;
+    }, 500);
 });
 
-// Donut Chart
-const userData = ref({
-    name: 'Nori',
-    grade: 81,
+const isLoading = ref(false);
+const todayScores = ref({});
 
+// Today's Scores
+async function checkIfTodayScoreExists() {
+    const { data, error } = await ScoreService.checkTodayScoreExists(userId);
+    if (error) {
+        console.error('Error checking today score', error);
+    }
+    if (data) {
+        console.log('Today data:', data);
+        todayScores.value = data;
+    }
+};
+
+const todayGrade = computed(() => {
+    return todayScores.value.mean_value || null;
 });
-
 
 function goToForm() {
     router.push('/form')
@@ -46,7 +67,6 @@ function goToForm() {
 // Week Overview
 async function getDailyScores() {
     try {
-        const userId = cookies.get('userId');
         const response = await ScoreService.getDailyScores(userId);
     } catch (error) {
         console.error('Error getting daily scores', error);
