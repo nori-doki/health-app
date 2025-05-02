@@ -33,8 +33,10 @@ import { ref, onMounted, computed } from 'vue';
 import WeekOverview from '../components/molecules/weekOverview.vue';
 import { ScoreService } from '@/services/score.service';
 import { useRouter } from 'vue-router';
+import { useCookies } from "vue3-cookies";
 
 const router = useRouter();
+const { cookies } = useCookies();
 
 onMounted(() => {
     getDailyScores();
@@ -99,7 +101,8 @@ function goToForm() {
 // Week Overview
 async function getDailyScores() {
     try {
-        const dailyScores = await ScoreService.getDailyScores()
+        const userId = cookies.get('userId');
+        const response = await ScoreService.getDailyScores(userId);
     } catch (error) {
         console.error('Error getting daily scores', error);
     }
