@@ -1,23 +1,17 @@
 <template>
     <div class="home">
         <div class="home-title">
-            <h1>Hello, {{ userData.name }}</h1>
+            <h1>Hello, username</h1>
         </div>
-        <div class="home-donut-chart">
-            <Doughnut 
-                id="donut-chart" 
-                :data="data" 
-                :options="options" 
-                data-micron="shake"
-                @click="createDonutChart"
+        <div style="min-height: 250px; display: flex; justify-content: center; align-items: center;">
+            <BaseDonut 
+                v-if="!isLoading"
+                :grade="todayGrade"
             />
-            <div class="home-donut-chart-content">
-                <p class="home-donut-chart-content-grade">{{ userData.grade }}%</p>
-                <p class="home-donut-chart-content-comment">{{ gradeComment(userData.grade) }}</p>
-            </div>
+            <div v-else class="loader"></div>
         </div>
         <Button 
-            label="Log Your Day" 
+            :label="buttonLabel" 
             class="home-form-button" 
             data-micron="blink"
             @click="goToForm"
@@ -27,81 +21,58 @@
 </template>
 
 <script setup>
-import { Chart as ChartJS, ArcElement } from 'chart.js';
-import { Doughnut } from 'vue-chartjs'
 import { ref, onMounted, computed } from 'vue';
 import WeekOverview from '../components/molecules/weekOverview.vue';
 import { ScoreService } from '@/services/score.service';
 import { useRouter } from 'vue-router';
 import { useCookies } from "vue3-cookies";
+import BaseDonut from '../components/atoms/baseDonut.vue';
 
 const router = useRouter();
 const { cookies } = useCookies();
+const userId = cookies.get('user_id');
 
-onMounted(() => {
-    getDailyScores();
-    createDonutChart();
+onMounted(async () => {
+    isLoading.value = true;
+    await checkIfTodayScoreExists()
+    await getDailyScores();
+    setTimeout(() => {
+        isLoading.value = false;
+    }, 500);
 });
 
-// Donut Chart
-ChartJS.register(ArcElement);
-const userData = ref({
-    name: 'Nori',
-    grade: 81,
+const isLoading = ref(false);
+const todayScores = ref({});
 
-});
-let data = ref({
-    datasets: [
-        {
-        backgroundColor: getDonutColorArray(userData.value.grade),
-        data: [100],
-        borderWidth: 0,
-        borderRadius: 10,
-        }
-    ]
-});
-let options = ref({
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '80%',
-});
-function createDonutChart() {
-    data.value = {
-        datasets: [
-            {
-            backgroundColor: getDonutColorArray(userData.value.grade),
-            data: [userData.value.grade, 100 - userData.value.grade],
-            }
-        ]
-    };
-    options.value = {
-        responsive: true,
-        maintainAspectRatio: false,
-    };
-    ChartJS.register(ArcElement);
+// Today's Scores
+async function checkIfTodayScoreExists() {
+    const { data, error } = await ScoreService.checkScoreExists(userId);
+    if (error) {
+        console.error('No Score Today', error);
+    }
+    if (data) {
+        todayScores.value = data;
+    }
 };
-function getDonutColorArray(grade) {
-    if(!grade) return ['#fcfcfc'];
-    if(grade && grade < 50) return ['#ff0099', '#fcfcfc'];
-    if(50 <= grade  && grade < 80) return ['#fffd00', '#fcfcfc'];
-    if(grade >= 80) return ['#1ffb96', '#fcfcfc'];
-};
-function gradeComment (grade) {
-    if(!grade) return '';
-    if(grade && grade < 50) return 'You can still do it!';
-    if(grade >= 50 && grade < 80) return 'Almost there!';
-    if(grade >= 80  && grade < 95) return 'Great job! Keep going!';
-    if(grade >= 95) return 'Excellent!';
-};
+
+const todayGrade = computed(() => {
+    return todayScores.value.mean_value || null;
+});
+const buttonLabel = computed(() => {
+    return todayScores.value.mean_value ? 'Edit your day ✏️' : 'Log your day ✏️';
+});
 
 function goToForm() {
-    router.push('/form')
+    if(todayScores.value.date) {
+        router.push(`/form?edit=true&date=${todayScores.value.date}`);
+    } else {
+        router.push('/form');
+    }
 }
 
 // Week Overview
 async function getDailyScores() {
     try {
-        const userId = cookies.get('userId');
         const response = await ScoreService.getDailyScores(userId);
     } catch (error) {
         console.error('Error getting daily scores', error);

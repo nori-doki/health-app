@@ -86,7 +86,7 @@ $gradient-light-grey: linear-gradient(to bottom, #ffffff, $base-light-grey, $bas
 // animations
 
 .zoom-in-out-animation {
-    animation: zoom-in-zoom-out 1s ease infinite;
+    animation: zoom-in-zoom-out 1s ease 2s 2;
 }
 
 @keyframes zoom-in-zoom-out {

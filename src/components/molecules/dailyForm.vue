@@ -41,21 +41,26 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { ScoreService } from '@/services/score.service';
 import { useCookies } from "vue3-cookies";
 
 const router = useRouter();
+const route = useRoute()
 const { cookies } = useCookies();
 const isLoading = ref(false);
+const userId = cookies.get('user_id');
+
+onMounted(async () => {
+    await checkIfScoreExists();
+});
 
 const scores = [
     0,
     50,
     100,
 ];
-
 
 const formData = ref({
     meal_1: null,
@@ -105,6 +110,9 @@ const physicalActivityItems = [
     },
 ];
 
+const edit = route.query.edit === 'true';
+const date = route.query.date ? Number(route.query.date) : undefined;
+
 async function handleSubmit(){
     isLoading.value = true;
     const payload = {
@@ -116,9 +124,16 @@ async function handleSubmit(){
         steps: formData.value.steps,
         workout: formData.value.workout,
         mean_value: getMeanValue.value,
-        date: new Date().setHours(0, 0, 0, 0) - (1000 * 60 * 60 * 24 * 4),
-        // date: Date.now() - 86400000,
+        date: date || new Date().setHours(0, 0, 0, 0),
     };
+    if (edit) {
+        await editScore(payload);
+    } else {
+        await addNewScore(payload);
+    };
+};
+
+async function addNewScore(payload) {
     const { data, error, status } = await ScoreService.addDailyScores(payload);
     if (error) {
         isLoading.value = false;
@@ -131,7 +146,19 @@ async function handleSubmit(){
             router.push('/home');
         }, 1000);
     };
-};
+}
+
+async function editScore(payload) {
+    const { data, error, status } = await ScoreService.updateDailyScores(payload);
+    if (error) {
+        isLoading.value = false;
+        console.error('Error editing daily scores', error);
+        return;
+    };
+    if (status === 204) {
+        router.push('/home');
+    };
+}
 
 const getTotalScore = computed(() => {
     let totalScore = 0;
@@ -170,6 +197,27 @@ const isReadyToSubmit = computed(() => {
 
 function goToHomePage(){
     router.push('/home');
+};
+
+const scoreExists = ref(false);
+
+async function checkIfScoreExists() {
+    const dateToCheck = date || new Date().setHours(0, 0, 0, 0);
+    const { data, error } = await ScoreService.checkScoreExists(userId, dateToCheck);
+    if (error) {
+        console.error('No Score That Day', error);
+    }
+    if (data) {
+        formData.value = {
+            meal_1: data.meal_1,
+            meal_2: data.meal_2,
+            meal_3: data.meal_3,
+            snack: data.snack,
+            steps: data.steps,
+            workout: data.workout,
+        };
+        scoreExists.value = true;
+    }
 };
 
 </script>
