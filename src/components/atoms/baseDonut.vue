@@ -67,6 +67,7 @@ function createDonutChart() {
 
 function getDonutColorArray(grade) {
     if(grade === null) return ['#fcfcfc'];
+    if(grade === 0) return ['#ff0099', '#fcfcfc'];
     if(grade && grade < 50) return ['#ff0099', '#fcfcfc'];
     if(50 <= grade  && grade < 80) return ['#fffd00', '#fcfcfc'];
     if(grade >= 80) return ['#1ffb96', '#fcfcfc'];
@@ -74,6 +75,7 @@ function getDonutColorArray(grade) {
 
 function gradeComment (grade) {
     if(grade === null) return 'Log your data for the day ❤️';
+    if(grade === 0) return 'You can still do it!';
     if(grade && grade < 50) return 'You can still do it!';
     if(grade >= 50 && grade < 80) return 'Almost there!';
     if(grade >= 80  && grade < 95) return 'Great job! Keep going!';
