@@ -16,7 +16,9 @@
             data-micron="blink"
             @click="goToForm"
         ></Button>  
-        <WeekOverview />
+        <WeekOverview 
+            :weekData="weekScoresFormatted"
+        />
     </div>
 </template>
 
@@ -34,11 +36,11 @@ const userId = cookies.get('user_id');
 
 onMounted(async () => {
     isLoading.value = true;
-    await checkIfTodayScoreExists()
+    await checkIfTodayScoreExists();
     await getDailyScores();
     setTimeout(() => {
         isLoading.value = false;
-    }, 500);
+    }, 300);
 });
 
 const isLoading = ref(false);
@@ -71,14 +73,51 @@ function goToForm() {
 }
 
 // Week Overview
+const weekScoresFormatted = ref([]);
 async function getDailyScores() {
     try {
         const response = await ScoreService.getDailyScores(userId);
+        formatLastSevenDays(response.data);
     } catch (error) {
         console.error('Error getting daily scores', error);
     }
-
 };
+
+function formatLastSevenDays(allScores){
+    getLastSevenDaysNumber();
+    getLastSevenDaysScores(allScores)
+}
+
+function getLastSevenDaysNumber() {
+    const today = new Date();
+    const lastSevenDays = [];
+    
+    for (let i = 0; i < 7; i++) {
+        const day = {};
+        const date = new Date(today);
+        date.setDate(today.getDate() - i);
+        day.timestamp = date.setHours(0, 0, 0, 0);
+        date.toISOString().split('T')[0];
+        day.truncated_date = date.getDate().toString().padStart(2, '0');
+        lastSevenDays.push(day);
+    };
+
+    weekScoresFormatted.value = lastSevenDays.reverse();
+}
+
+function getLastSevenDaysScores(allScores) {
+    const lastSevenDays = weekScoresFormatted.value;
+    const scores = lastSevenDays.map((day) => {
+        const score = allScores.find((score) => score.date === day.timestamp);
+        return {
+            day: day.truncated_date,
+            date: day.timestamp,
+            grade: score ? score.mean_value : null,
+        };
+    });
+    weekScoresFormatted.value = scores;
+    console.log('weekScoresFormatted.value:', weekScoresFormatted.value)
+}
 </script>
 
 <style lang="scss">

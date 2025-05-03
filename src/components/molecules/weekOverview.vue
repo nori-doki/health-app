@@ -5,7 +5,7 @@
             <div v-for="dayData in weekData" class="week-overview-day">
                 <div class="week-overview-day-header" 
                     :style="{ fontWeight: isToday(dayData.date) ? 'bold' : 'normal' }">
-                    <p>{{ dayData.date }}</p>
+                    <p>{{ dayData.day }}</p>
                 </div>
                 <div class="week-overview-day-body">
                     <base-chip :value="dayData.grade" />
@@ -17,52 +17,18 @@
 
 <script setup>
 import { ref } from 'vue';
-import useHandleDate from '@/composables/useHandleDate';
+import BaseChip from '@/components/atoms/baseChip.vue';
 
-const { timestampToDay, getDateInTimestamp } = useHandleDate();
-const date = new Date();
+const props = defineProps({
+    weekData: {
+        type: Array,
+    },
+});
 
-const weekData = ref([
-    {
-        day: 'Monday',
-        date: timestampToDay(1214233163),
-        grade: 90,
-    },
-    {
-        day: 'Tuesday',
-        date: timestampToDay(1300633163),
-        grade: 30,
-    },
-    {
-        day: 'Wednesday',
-        date: timestampToDay(1387033163),
-        grade: 70,
-    },
-    {
-        day: 'Thursday',
-        date: timestampToDay(1473433163),
-        grade: 70,
-    },
-    {
-        day: 'Friday',
-        date: timestampToDay(1559833163),
-        grade: 80,
-    },
-    {
-        day: 'Saturday',
-        date: timestampToDay(1646233163),
-        grade: 100,
-    },
-    {
-        day: 'Sunday',
-        date: timestampToDay(1732633163),
-        grade: null,
-    },
-]);
+console.log('weekData', props.weekData);
 
 function isToday(day) {
-    // return getDateInTimestamp(day) === date.getDate();
-    return day === '21'
+    return day === new Date().setHours(0, 0, 0, 0);
 }
 </script>
 
