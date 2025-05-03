@@ -11,7 +11,7 @@
             <div v-else class="loader"></div>
         </div>
         <Button 
-            label="Log Your Day" 
+            :label="buttonLabel" 
             class="home-form-button" 
             data-micron="blink"
             @click="goToForm"
@@ -46,12 +46,11 @@ const todayScores = ref({});
 
 // Today's Scores
 async function checkIfTodayScoreExists() {
-    const { data, error } = await ScoreService.checkTodayScoreExists(userId);
+    const { data, error } = await ScoreService.checkScoreExists(userId);
     if (error) {
-        console.error('Error checking today score', error);
+        console.error('No Score Today', error);
     }
     if (data) {
-        console.log('Today data:', data);
         todayScores.value = data;
     }
 };
@@ -59,9 +58,16 @@ async function checkIfTodayScoreExists() {
 const todayGrade = computed(() => {
     return todayScores.value.mean_value || null;
 });
+const buttonLabel = computed(() => {
+    return todayScores.value.mean_value ? 'Edit your day ✏️' : 'Log your day ✏️';
+});
 
 function goToForm() {
-    router.push('/form')
+    if(todayScores.value.date) {
+        router.push(`/form?edit=true&date=${todayScores.value.date}`);
+    } else {
+        router.push('/form');
+    }
 }
 
 // Week Overview

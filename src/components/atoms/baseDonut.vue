@@ -17,11 +17,11 @@
 <script setup>
 import { Chart as ChartJS, ArcElement } from 'chart.js';
 import { Doughnut } from 'vue-chartjs'
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const props = defineProps({
     grade: {
-        type: Number,
+        type: [Number, null],
         required: true
     },
 });
@@ -66,14 +66,14 @@ function createDonutChart() {
 };
 
 function getDonutColorArray(grade) {
-    if(!grade) return ['#fcfcfc'];
+    if(grade === null) return ['#fcfcfc'];
     if(grade && grade < 50) return ['#ff0099', '#fcfcfc'];
     if(50 <= grade  && grade < 80) return ['#fffd00', '#fcfcfc'];
     if(grade >= 80) return ['#1ffb96', '#fcfcfc'];
 };
 
 function gradeComment (grade) {
-    if(!grade) return 'Log your data for the day ❤️';
+    if(grade === null) return 'Log your data for the day ❤️';
     if(grade && grade < 50) return 'You can still do it!';
     if(grade >= 50 && grade < 80) return 'Almost there!';
     if(grade >= 80  && grade < 95) return 'Great job! Keep going!';
