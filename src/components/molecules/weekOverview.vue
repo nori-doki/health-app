@@ -7,7 +7,7 @@
                     :style="{ fontWeight: isToday(dayData.date) ? 'bold' : 'normal' }">
                     <p>{{ dayData.day }}</p>
                 </div>
-                <div class="week-overview-day-body">
+                <div class="week-overview-day-body" @click="updatePreviousScore(dayData)">
                     <base-chip :value="dayData.grade" />
                 </div>
             </div>
@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import BaseChip from '@/components/atoms/baseChip.vue';
 
 const props = defineProps({
@@ -24,11 +24,15 @@ const props = defineProps({
         type: Array,
     },
 });
-
-console.log('weekData', props.weekData);
+const router = useRouter();
 
 function isToday(day) {
     return day === new Date().setHours(0, 0, 0, 0);
+}
+
+function updatePreviousScore(data){
+    const shouldEdit = typeof data.grade === 'number' ? true : false;
+    router.push(`/form?edit=${shouldEdit}&date=${data.date}`)
 }
 </script>
 

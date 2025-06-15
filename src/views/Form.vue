@@ -1,7 +1,7 @@
 <template>
     <div class="form">
         <h1 class="form-title">How was your day?</h1>
-        <h2 class="form-subtitle"> {{ getTodayInDDMMYYYY() }} </h2>
+        <h2 class="form-subtitle"> {{ displayDate }} </h2>
         <daily-form />
     </div>
 </template>
@@ -9,8 +9,15 @@
 <script setup>
 import useHandleDate from '@/composables/useHandleDate';
 import DailyForm from '@/components/molecules/dailyForm.vue';
+import { useRoute } from 'vue-router';
 
-const { getTodayInDDMMYYYY } = useHandleDate();
+const route = useRoute()
+
+const { getTodayInDDMMYYYY, getDateInDDMMYYYY } = useHandleDate();
+
+const isNotToday = route.query.date ? Number(route.query.date) : undefined
+
+const displayDate = isNotToday ? getDateInDDMMYYYY(new Date(isNotToday)) : getTodayInDDMMYYYY();
 
 </script>
 

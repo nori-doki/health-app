@@ -6,7 +6,7 @@
         <div style="min-height: 250px; display: flex; justify-content: center; align-items: center;">
             <BaseDonut 
                 v-if="!isLoading"
-                :grade="todayGrade"
+                :grade="getLastSevenDaysMeanValue()"
             />
             <div v-else class="loader"></div>
         </div>
@@ -50,7 +50,7 @@ const todayScores = ref({});
 async function checkIfTodayScoreExists() {
     const { data, error } = await ScoreService.checkScoreExists(userId);
     if (error) {
-        console.error('No Score Today', error);
+        console.error(error.details);
     }
     if (data) {
         todayScores.value = data;
@@ -116,7 +116,18 @@ function getLastSevenDaysScores(allScores) {
         };
     });
     weekScoresFormatted.value = scores;
-    console.log('weekScoresFormatted.value:', weekScoresFormatted.value)
+}
+
+function getLastSevenDaysMeanValue() {
+    const sumOfExistingScores = weekScoresFormatted.value.reduce((acc, score) => {
+        if (score.grade !== null) {
+            acc += score.grade;
+        }
+        return acc;
+    }, 0);
+    const numberOfExistingScores = weekScoresFormatted.value.filter(score => score.grade !== null).length;
+    const lastSevenDaysMeanValue = sumOfExistingScores / numberOfExistingScores;
+    return lastSevenDaysMeanValue !== NaN ? Math.floor(lastSevenDaysMeanValue) : null;
 }
 </script>
 

@@ -65,19 +65,28 @@ $gradient-light-grey: linear-gradient(to bottom, #ffffff, $base-light-grey, $bas
 
 // Primevue components
 .p-button {
-    width: fit-content;
-    margin: 20px auto;
-    padding: 12px 20px;
-    font-size: 18px;
-    text-align: center;
-    color: black;
-    border-radius: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    display: block;
-    font-weight: 500;
-    background-color: white;
+    // width: fit-content;
+    // margin: 20px auto;
+    // padding: 12px 20px;
+    // font-size: 18px;
+    // text-align: center;
+    // color: black;
+    // border-radius: 30px;
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    // cursor: pointer;
+    // display: block;
+    // font-weight: 500;
+    // background-color: white;
 
+    min-width: 220px;
+    padding: 10px 20px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+    color: rgb(0, 0, 0);
     .p-button-icon {
         margin: 5px 10px;
     }

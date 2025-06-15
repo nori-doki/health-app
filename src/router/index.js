@@ -1,5 +1,6 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
+import { supabase } from '@/services/supabase/supabase.js';
 import LandingPage from '../views/LandingPage.vue';
 import About from '../views/About.vue';
 import SignUp from '../views/SignUp.vue';
@@ -9,6 +10,16 @@ import Form from '../views/Form.vue';
 import Analytics from '../views/Analytics.vue';
 import Profile from '../views/Profile.vue';
 import Login from '../views/Login.vue';
+
+const requireAuth = async (to, from, next) => {
+  const { data } = await supabase.auth.getSession()
+
+  if (data.session) {
+    next()
+  } else {
+    next('/login')
+  }
+}
 
 const routes = [
   {
@@ -52,6 +63,7 @@ const routes = [
     meta: {
       layout: "default",
     },
+    beforeEnter: requireAuth
   },
   {
     path: '/form',
@@ -60,6 +72,7 @@ const routes = [
     meta: {
       layout: "default",
     },
+    beforeEnter: requireAuth
   },
   {
     path: '/analytics',
@@ -68,6 +81,7 @@ const routes = [
     meta: {
       layout: "default",
     },
+    beforeEnter: requireAuth
   }, 
   {
     path: '/profile',
@@ -76,6 +90,7 @@ const routes = [
     meta: {
       layout: "default",
     },
+    beforeEnter: requireAuth
   }
 ];
 

@@ -21,7 +21,7 @@ describe("BaseDonut", () => {
 
     it("should return the correct comment", () => {
         expect(wrapper.vm.gradeComment(0)).toEqual('You can still do it!');
-        expect(wrapper.vm.gradeComment(null)).toEqual('Log your data for the day ❤️');
+        expect(wrapper.vm.gradeComment(null)).toEqual('Start logging your data for this week ❤️');
         expect(wrapper.vm.gradeComment(49)).toEqual('You can still do it!');
         expect(wrapper.vm.gradeComment(60)).toEqual('Almost there!');
         expect(wrapper.vm.gradeComment(80)).toEqual('Great job! Keep going!');

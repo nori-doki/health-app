@@ -37,9 +37,9 @@ describe('LandingPage', () => {
     const buttons = wrapper.findAll('.landing-page-nav-button')
     expect(buttons).toHaveLength(3)
     console.log('buttons:', buttons[0].html())
-    const expectedLabels = ['Login', 'About us', 'Get started'];
+    const expectedLabels = ['Login', 'What is 80to100?', 'Create account'];
     buttons.forEach((button, index) => {
-      const label = button.find('.p-button-label'); // PrimeVue's label structure
+      const label = button.find('.p-button-label');
       expect(label.text()).toContain(expectedLabels[index]);
     });
   })
