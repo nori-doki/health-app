@@ -47,7 +47,7 @@ import { ScoreService } from '@/services/score.service';
 import { useCookies } from "vue3-cookies";
 
 const router = useRouter();
-const route = useRoute()
+const route = useRoute();
 const { cookies } = useCookies();
 const isLoading = ref(false);
 const userId = cookies.get('user_id');

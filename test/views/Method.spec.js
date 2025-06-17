@@ -1,12 +1,12 @@
-import About from "../../src/views/About.vue";
+import Method from "../../src/views/Method.vue";
 import { describe, vi, it, expect } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
 
-describe("About", () => {
+describe("Method", () => {
     it("test", () => {
         const mockElement = { scrollIntoView: vi.fn() };
         vi.spyOn(document, 'getElementById').mockReturnValue(mockElement);
-        const wrapper = shallowMount(About);
+        const wrapper = shallowMount(Method);
 
         wrapper.vm.scrollToSection('test-id');
 

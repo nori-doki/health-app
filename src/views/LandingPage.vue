@@ -3,6 +3,9 @@
         <BaseLogo class="landing-page-logo" />
         <span ref="typing"></span>
 
+        <p class="landing-page-text">Start the next step of your health journey.<br>Simpler. Easier. Faster.</p>
+        <a class="landing-page-text" href="/method"
+        :style="'font-weight: 500;'">Discover 80to100 here.</a>
         <div class="landing-page-nav">
             <Button 
                 v-for="cta of callToActionList"
@@ -15,6 +18,8 @@
             ></Button>
         </div>
         <BaseLavaAnimation />
+
+        <a class="landing-page-signature" href="/about">hi 👋</a>
     </div>
 </template>
 
@@ -40,15 +45,8 @@ const callToActionList = ref([
         route : '/login'
     },
     {
-        id: "about",
-        label: "About us",
-        icon: "pi pi-heart",
-        color: "white",
-        route : '/about'
-    },
-    {
         id: "signUp",
-        label: "Get started",
+        label: "Create account",
         icon : "pi pi-chevron-circle-right",
         color: "white",
         route : '/signUp'
@@ -72,9 +70,18 @@ onMounted(() => {
     overflow: hidden;
     position: relative;
     text-align: center;
+    padding: 0 20px;
 
     &-logo {
         margin: 50px auto 20px;
+    }
+
+    &-text {
+        font-size: 1.2rem;
+        margin: 10px auto;
+        display: block;
+        margin: 20px auto;
+        line-height: 1.3;
     }
 
     &-nav {
@@ -83,6 +90,21 @@ onMounted(() => {
 
         &-button {
             z-index: 100;
+        }
+    }
+
+    &-signature {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 0.9rem;
+        color: #000000;
+        text-decoration: none;
+        opacity: 0.8;
+        z-index: 1000;
+
+        &:hover {
+            opacity: 1;
         }
     }
     .p-button {

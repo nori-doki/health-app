@@ -10,8 +10,8 @@ describe("BaseDonut", () => {
 
     it("should return correct donut color", () => {
         expect(wrapper.vm.getDonutColorArray(null)).toEqual(['#fcfcfc'])
-        expect(wrapper.vm.getDonutColorArray(0)).toEqual(['#ff0099', '#fcfcfc'])
-        expect(wrapper.vm.getDonutColorArray(49)).toEqual(['#ff0099', '#fcfcfc'])
+        expect(wrapper.vm.getDonutColorArray(0)).toEqual(['#ff0000', '#e9e9e9'])
+        expect(wrapper.vm.getDonutColorArray(49)).toEqual(['#ff0000', '#fcfcfc'])
         expect(wrapper.vm.getDonutColorArray(60)).toEqual(['#fffd00', '#fcfcfc'])
         expect(wrapper.vm.getDonutColorArray(79)).toEqual(['#fffd00', '#fcfcfc'])
         expect(wrapper.vm.getDonutColorArray(80)).toEqual(['#1ffb96', '#fcfcfc'])
@@ -21,7 +21,7 @@ describe("BaseDonut", () => {
 
     it("should return the correct comment", () => {
         expect(wrapper.vm.gradeComment(0)).toEqual('You can still do it!');
-        expect(wrapper.vm.gradeComment(null)).toEqual('Log your data for the day ❤️');
+        expect(wrapper.vm.gradeComment(null)).toEqual('Start logging your data for this week ❤️');
         expect(wrapper.vm.gradeComment(49)).toEqual('You can still do it!');
         expect(wrapper.vm.gradeComment(60)).toEqual('Almost there!');
         expect(wrapper.vm.gradeComment(80)).toEqual('Great job! Keep going!');

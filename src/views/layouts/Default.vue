@@ -2,7 +2,7 @@
     <div class="default-layout">
         <header class="default-layout-header">
             <burger-menu v-if="!isVisitorRoutes" />
-            <span v-else class="default-layout-header-arrow" @click="router.go(-1)">
+            <span v-else class="default-layout-header-arrow" @click="goBack()">
                 <i class="pi pi-arrow-left"></i>
             </span>
             <base-logo class="default-layout-header-logo" />
@@ -24,6 +24,14 @@ const isVisitorRoutes = computed(() => {
     const visitorRoutes = ['/about', '/signUp', '/login'];
     return visitorRoutes.includes(router.currentRoute.value.path);
 })
+
+function goBack() {
+    if(router.currentRoute.value.path === '/login') {
+        router.push('/');
+        return;
+    }
+    router.go(-1);
+}
 </script>
 
 <style lang="scss">
