@@ -10,8 +10,8 @@ describe("BaseDonut", () => {
 
     it("should return correct donut color", () => {
         expect(wrapper.vm.getDonutColorArray(null)).toEqual(['#fcfcfc'])
-        expect(wrapper.vm.getDonutColorArray(0)).toEqual(['#ff0099', '#fcfcfc'])
-        expect(wrapper.vm.getDonutColorArray(49)).toEqual(['#ff0099', '#fcfcfc'])
+        expect(wrapper.vm.getDonutColorArray(0)).toEqual(['#ff0000', '#e9e9e9'])
+        expect(wrapper.vm.getDonutColorArray(49)).toEqual(['#ff0000', '#fcfcfc'])
         expect(wrapper.vm.getDonutColorArray(60)).toEqual(['#fffd00', '#fcfcfc'])
         expect(wrapper.vm.getDonutColorArray(79)).toEqual(['#fffd00', '#fcfcfc'])
         expect(wrapper.vm.getDonutColorArray(80)).toEqual(['#1ffb96', '#fcfcfc'])

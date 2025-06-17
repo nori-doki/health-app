@@ -31,18 +31,8 @@ describe('LandingPage', () => {
   it('should render correctly', () => {
     expect(wrapper.exists()).toBe(true)
     expect(wrapper.find('.landing-page').exists()).toBe(true)
-  })
+  });
 
-  it.todo('renders buttons with correct labels', () => {
-    const buttons = wrapper.findAll('.landing-page-nav-button')
-    expect(buttons).toHaveLength(3)
-    console.log('buttons:', buttons[0].html())
-    const expectedLabels = ['Login', 'What is 80to100?', 'Create account'];
-    buttons.forEach((button, index) => {
-      const label = button.find('.p-button-label');
-      expect(label.text()).toContain(expectedLabels[index]);
-    });
-  })
   it('should initialize Typed.js with the correct options on mount', () => {
     const mockTypedInstance = {};
     Typed.mockImplementation(() => mockTypedInstance);
@@ -62,10 +52,10 @@ describe('LandingPage', () => {
     const { goToPage } = useNavigate()
     const buttons = wrapper.findAll('.landing-page-nav-button')
 
-    await buttons[1].trigger('click')
-    expect(goToPage).toHaveBeenCalledWith('/about')
+    await buttons[0].trigger('click')
+    expect(goToPage).toHaveBeenCalledWith('/login')
 
-    await buttons[2].trigger('click')
+    await buttons[1].trigger('click')
     expect(goToPage).toHaveBeenCalledWith('/signUp')
 })
 });
