@@ -74,7 +74,7 @@ function scrollToSection(id) {
 
 <style lang="scss">
 .about {
-    min-height: 100vh;
+    // min-height: 100vh;
     padding: 10px 30px;
     position: relative;
 

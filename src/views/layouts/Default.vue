@@ -21,7 +21,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const isVisitorRoutes = computed(() => {
-    const visitorRoutes = ['/about', '/signUp', '/login'];
+    const visitorRoutes = ['/about', '/signUp', '/login', '/method'];
     return visitorRoutes.includes(router.currentRoute.value.path);
 })
 
@@ -38,7 +38,7 @@ function goBack() {
 .default-layout {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100dvh;
 
     &-header {
         display: flex;
