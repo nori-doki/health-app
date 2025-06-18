@@ -50,6 +50,19 @@ $gradient-light-grey: linear-gradient(to bottom, #ffffff, $base-light-grey, $bas
     );
 }
 
+.pink-background-2 {
+    background: linear-gradient(
+        rgba(255, 255, 255, 1),
+        rgb(255, 0, 153, 0.1),
+        rgb(255, 0, 153, 0.1),
+        rgb(255, 0, 153, 0.4),
+        rgb(255, 0, 153, 0.4),
+        rgb(255, 0, 153, 0.7),
+        rgb(255, 0, 153, 0.7),
+        $base-pink
+    );
+}
+
 .big-title {
     font-size: $font-title-big;
     font-weight: 600;
