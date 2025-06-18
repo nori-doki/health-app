@@ -3,7 +3,7 @@ import { describe, vi, it, expect } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
 
 describe("Method", () => {
-    it("test", () => {
+    it("should scroll to correct section", () => {
         const mockElement = { scrollIntoView: vi.fn() };
         vi.spyOn(document, 'getElementById').mockReturnValue(mockElement);
         const wrapper = shallowMount(Method);
