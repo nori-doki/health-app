@@ -1,13 +1,13 @@
 <template>
-    <div class="about pink-background-2" id="top">
-        <h1 class="about-title big-title">The 80to100 Method</h1>
-        <div class="about-section">
-            <div v-for="(question, index) in questions" class="about-summary subtitle" :key="index"
+    <div class="method pink-background-2" id="top">
+        <h1 class="method-title big-title">The 80to100 Method</h1>
+        <div class="method-section">
+            <div v-for="(question, index) in questions" class="method-summary subtitle" :key="index"
             @click="scrollToSection(index)">
                 {{ question.title }}
             </div>
         </div>
-        <div v-for="(question, index) in questions" class="about-section" :id="`${index}`" :key="index">
+        <div v-for="(question, index) in questions" class="method-section" :id="`${index}`" :key="index">
             <h2 class="title"> {{ question.title }}</h2>
             <DotLottieVue style="height: 200px; width: 200px" autoplay loop :src="question.illustration" />
             <div>
@@ -16,7 +16,7 @@
                 </p>
             </div>
         </div>
-        <DotLottieVue class="about-button" style="height: 100px; width: 100px" autoplay loop src="https://lottie.host/3da3f52f-e450-4c07-88aa-556bf754a262/lehp2KOC0x.json" @click="scrollToSection('top')" />
+        <DotLottieVue class="method-button" style="height: 100px; width: 100px" autoplay loop src="https://lottie.host/3da3f52f-e450-4c07-88aa-556bf754a262/lehp2KOC0x.json" @click="scrollToSection('top')" />
     </div>
 </template>
 
@@ -84,7 +84,7 @@ function scrollToSection(id) {
 </script>
 
 <style lang="scss">
-.about {
+.method {
     // height: 100vh;
     padding: 10px 30px;
     position: relative;

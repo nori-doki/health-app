@@ -54,6 +54,9 @@ const routes = [
   {
     path: '/method',
     name: 'Method',
+    meta: {
+      layout: "default",
+    },
     component: Method,
   },
   {
