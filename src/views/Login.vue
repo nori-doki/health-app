@@ -7,13 +7,13 @@
             <div class="login-form-item">
                 <label for="email">Email *</label>
                 <input type="email" id="email" name="email" required v-model="email" :valid="emailIsValid"
-                :class="{ 'invalid': email.length > 0 && !emailIsValid }">
+                :class="{ 'invalid': email.length > 0 && !emailIsValid }" autocomplete="username">
                 <p v-show="email.length > 0 && !emailIsValid" class="sign-up-form-item-error">Your email is not valid.</p>
             </div>
             <div class="login-form-item">
                 <label for="password">Password *</label>
                 <input :type="passwordInputType" id="password" name="password" required v-model="password">
-                <div class="login-form-item-password-eye">
+                <div class="login-form-item-password-eye" autocomplete="current-password">
                     <i v-if="showPassword" @click="showPassword = !showPassword" class="pi pi-eye"></i>
                     <i v-else @click="showPassword = !showPassword" class="pi pi-eye-slash"></i>
                 </div>

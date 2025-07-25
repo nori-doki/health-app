@@ -6,49 +6,26 @@
                 <label for="email">Email *</label>
                 <input type="email" id="email" name="email" required v-model="email"
                 :valid="emailIsValid"
-                :class="{ 'invalid': email.length > 0 && !emailIsValid }">
+                :class="{ 'invalid': email.length > 0 && !emailIsValid }"
+                autocomplete="username">
                 <p v-show="email.length > 0 && !emailIsValid" class="sign-up-form-item-error">Your email is not valid.</p>
             </div>
-            <div class="sign-up-form-item">
-                <label for="password">Password *</label>
-                <input :type="passwordInputType" id="password" name="password" required v-model="password">
-                <div class="sign-up-form-item-password-eye">
-                    <i v-if="showPassword" @click="showPassword = !showPassword" class="pi pi-eye"></i>
-                    <i v-else @click="showPassword = !showPassword" class="pi pi-eye-slash"></i>
-                </div>
-                <ul class="sign-up-form-item-password-requirements">
-                    <p>Password must contain:</p>
-                    <li :class="{ 'valid': passwordHasLowercase }">
-                        At least one lowercase 
-                        <span v-show="passwordHasLowercase">✅</span>
-                    </li>
-                    <li :class="{ 'valid': passwordHasUppercase }">
-                        At least one uppercase 
-                        <span v-show="passwordHasUppercase">✅</span>
-                    </li>
-                    <li :class="{ 'valid': passwordHasNumeric }">
-                        At least one numeric 
-                        <span v-show="passwordHasNumeric">✅</span>
-                    </li>
-                    <li :class="{ 'valid': passwordHasSpecialCharacter }">
-                        At least one special character 
-                        <span v-show="passwordHasSpecialCharacter">✅</span>
-                    </li>
-                    <li :class="{ 'valid': passwordIs8CharactersLong }">
-                        Minimum 8 characters 
-                        <span v-show="passwordIs8CharactersLong">✅</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="sign-up-form-item">
-                <label for="confirmPassword">Confirm Password *</label>
-                <input :type="confirmPasswordInputType" id="confirmPassword" name="confirmPassword" required v-model="confirmPassword" :class="{ 'invalid': confirmPassword.length > 0 && !passwordsMatch }"  autocomplete="off">
-                <div class="sign-up-form-item-password-eye">
-                    <i v-if="showConfirmPassword" @click="showConfirmPassword = !showConfirmPassword" class="pi pi-eye"></i>
-                    <i v-else @click="showConfirmPassword = !showConfirmPassword" class="pi pi-eye-slash"></i>
-                </div>
-                <p v-show="confirmPassword.length > 0 && !passwordsMatch" class="sign-up-form-item-error">Passwords do not match.</p>
-            </div>
+            <baseNewPasswordForm 
+                v-model:password="password" 
+                v-model:confirmPassword="confirmPassword"
+                :passwordInputType="passwordInputType"
+                :confirmPasswordInputType="confirmPasswordInputType"
+                :showPassword="showPassword"
+                :showConfirmPassword="showConfirmPassword"
+                :passwordHasLowercase="passwordHasLowercase"
+                :passwordHasUppercase="passwordHasUppercase"
+                :passwordHasNumeric="passwordHasNumeric"
+                :passwordHasSpecialCharacter="passwordHasSpecialCharacter"
+                :passwordIs8CharactersLong="passwordIs8CharactersLong"
+                :passwordsMatch="passwordsMatch"
+                @toggleShowPassword="showPassword = !showPassword"
+                @toggleShowConfirmPassword="showConfirmPassword = !showConfirmPassword"
+            />
             <div class="sign-up-form-item">
                 <label for="nickname">Nickname *</label>
                 <input type="text" id="nickname" name="nickname" required v-model="nickname">
@@ -79,6 +56,8 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { AuthService } from '@/services/auth.service';
 
+import baseNewPasswordForm from '../components/atoms/baseNewPasswordForm.vue';
+
 const router = useRouter();
 
 const email = ref('');
@@ -99,18 +78,19 @@ async function handleSubmit(){
             },
         },
     };
-    loading.value = true;
-    const { data, error } = await AuthService.signUp(payload);
+    console.log('payload:', payload)
+    // loading.value = true;
+    // const { data, error } = await AuthService.signUp(payload);
 
-    if (error) {
-        console.error('Error signing up:', error.message);
-        loading.value = false;
-        return;
-    } else {
-        setTimeout(() => {
-            router.push('/home');
-        }, 1000);
-    }
+    // if (error) {
+    //     console.error('Error signing up:', error.message);
+    //     loading.value = false;
+    //     return;
+    // } else {
+    //     setTimeout(() => {
+    //         router.push('/home');
+    //     }, 1000);
+    // }
 }
 
 const emailIsValid = computed(() => {
@@ -223,27 +203,6 @@ const confirmPasswordInputType = computed(() => showConfirmPassword.value ? 'tex
                 margin: 0.2rem;
             }
 
-            &-password-requirements {
-                font-size: $font-small;
-                margin-top: 0.6rem;
-                list-style-type: disc;
-                padding-left: 0;
-
-                li {
-                    margin: 0.3rem 0 0.3rem 1rem;
-                }
-
-                .valid {
-                    color: green;
-                }
-            }
-
-            &-password-eye {
-                position: absolute;
-                right: 1rem;
-                top: 2.2rem;
-                cursor: pointer;
-            }
         }
         &-bottom {
             margin-top: -1rem;
