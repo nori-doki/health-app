@@ -20,4 +20,11 @@ export class AuthService {
         const { error } = await supabase.auth.signOut();
         return { error };
     }
+
+    static async sendPasswordResetEmail(email) {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: 'http://localhost:5173/reset-password',
+        });
+        return { error };
+    }
 };

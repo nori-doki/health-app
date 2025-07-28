@@ -9,8 +9,11 @@
                 <input type="email" id="email" name="email" required v-model="email" :valid="emailIsValid"
                 :class="{ 'invalid': email.length > 0 && !emailIsValid }" autocomplete="username">
                 <p v-show="email.length > 0 && !emailIsValid" class="sign-up-form-item-error">Your email is not valid.</p>
+                <p v-if="resetPasswordEmailHasBeenSent" style="margin-top: 0.3rem">
+                    A reset password email has been sent to your email address ✅
+                </p>
             </div>
-            <div class="login-form-item">
+            <div v-if="!isPasswordForgotten" class="login-form-item">
                 <label for="password">Password *</label>
                 <input :type="passwordInputType" id="password" name="password" required v-model="password">
                 <div class="login-form-item-password-eye" autocomplete="current-password">
@@ -19,12 +22,18 @@
                 </div>
                 <p v-show="loginError" class="login-form-item-error">Invalid email or password.</p>
             </div>
-            <Button v-if="!isLoading" type="submit" class="login-form-submit" 
-                :disabled="!isReadyToSubmit"
-            >Login</Button>
+            <div v-if="!isLoading">
+                <Button v-if="!isPasswordForgotten" type="submit" class="login-form-submit" 
+                    :disabled="!isReadyToSubmit"
+                >Login</Button>
+                <Button v-else @click="sendResetPasswordEmail" class="login-form-submit"
+                    :disabled="!emailIsValid"
+                >Send Reset Password Email</Button>
+            </div>
             <div v-else class="loader"></div>
-            <div class="login-form-item">
-                <a class="login-form-item-signup" href="/signUp">Don't have an account? Sign up here.</a>
+            <div class="login-footer">
+                <a class="login-footer-link" @click="handlePasswordForgotten" >Forgot password ?</a>
+                <a class="login-footer-link" href="/signUp">Don't have an account? Sign up here.</a>
             </div>
         </form>
     </div>
@@ -73,6 +82,26 @@ async function handleLogin() {
         console.log('Session:', session);
     }
     router.push('/home');
+};
+
+const isPasswordForgotten = ref(false);
+const resetPasswordEmailHasBeenSent = ref(false);
+
+function handlePasswordForgotten() {
+    isPasswordForgotten.value = true;
+}
+
+async function sendResetPasswordEmail() {
+    isLoading.value = true;
+    const { error } = await AuthService.sendPasswordResetEmail(email.value);
+    
+    if (error) {
+        console.error('Error sending reset password email:', error);
+        isLoading.value = false;
+        return;
+    }
+    isLoading.value = false;
+    resetPasswordEmailHasBeenSent.value = true;
 }
 </script>
 
@@ -91,6 +120,10 @@ async function handleLogin() {
     &-form {
         width: 300px;
         margin: 0 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         &-item {
             display: flex;
             flex-direction: column;
@@ -109,6 +142,7 @@ async function handleLogin() {
                 font-family: 'Quicksand', sans-serif;
                 font-size: 1rem;
                 font-weight: 500;
+                min-width: 250px;
 
                 &.invalid {
                     border-color: red;
@@ -127,13 +161,6 @@ async function handleLogin() {
                 font-size: 1.2rem;
                 margin-top: 0.5rem;
             }
-
-            
-            &-signup {
-                font-size: 1rem;
-                text-align: center;
-                padding: 0 2rem;
-            }
         }
 
         &-submit {
@@ -148,6 +175,17 @@ async function handleLogin() {
             }
         }
 
+    }
+
+    &-footer {
+            display: flex;
+            flex-direction: column;
+                        
+            &-link {
+                font-size: 1rem;
+                text-align: center;
+                padding: 0.5rem 1rem;
+            }
     }
 }
 </style>
