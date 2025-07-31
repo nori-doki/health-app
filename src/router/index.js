@@ -10,6 +10,7 @@ import Form from '../views/Form.vue';
 import Analytics from '../views/Analytics.vue';
 import Profile from '../views/Profile.vue';
 import Login from '../views/Login.vue';
+import ResetPassword from '../views/ResetPassword.vue';
 
 const requireAuth = async (to, from, next) => {
   const { data } = await supabase.auth.getSession()
@@ -31,6 +32,14 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+    meta: {
+      layout: "default",
+    },
+  },
+  {
+    path: '/reset-password',
+    name: 'ResetPassword',
+    component: ResetPassword,
     meta: {
       layout: "default",
     },

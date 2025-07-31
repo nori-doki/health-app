@@ -27,4 +27,9 @@ export class AuthService {
         });
         return { error };
     }
+
+    static async updatePassword(newPassword) {
+        const { error } = await supabase.auth.updateUser({ password: newPassword });
+        return { error };
+    }
 };
