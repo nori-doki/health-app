@@ -5,14 +5,14 @@
         </h1>
         <div class="reset-password-error-subtitle">
             <p>There was an error processing your request:</p>
-            <p style="font-style:italic;">{{ errorMessage }}</p>
+            <p style="font-style:italic;">{{ errorMessageURL }}</p>
         </div>
     </div>
     <div v-else class="reset-password">
         <h1 class="reset-password-title">
             Choose a new password
         </h1>
-        <form @submit.prevent="handleLogin" class="reset-password-form">
+        <form @submit.prevent="updatePassword" class="reset-password-form">
             <baseNewPasswordForm 
                 v-model:password="newPassword" 
                 v-model:confirmPassword="confirmPassword"
@@ -29,15 +29,18 @@
                 @toggleShowPassword="showPassword = !showPassword"
                 @toggleShowConfirmPassword="showConfirmPassword = !showConfirmPassword"
             />
-
             <div v-if="!isLoading">
-                <Button @click="sendResetPasswordEmail" class="reset-password-form-submit"
+                <Button type="submit" class="reset-password-form-submit"
                     :disabled="!isReadyToSubmit"
                 >Send Reset Password Email</Button>
             </div>
             <div v-else class="loader"></div>
-            <div class="reset-password-footer">
-                <a class="reset-password-footer-link" href="/login">Go back to login page</a>
+            <div v-if="errorNewPassword" class="reset-password-form-item-error">
+                {{ errorMessageNewPassword }}
+            </div>
+            <div v-if="successNewPassword" class="reset-password-form-item-success">
+                <p>Your password has been successfully updated! ✅</p>
+                <p>You will be redirected to the login page in {{ redirectCountdown }}</p>
             </div>
         </form>
     </div>
@@ -70,25 +73,44 @@ const isReadyToSubmit = computed(() => newPassword.value.length > 0);
 
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
-
 const isLoading = ref(false);
+
+const errorMessageNewPassword = ref('');
+const errorNewPassword = ref(false);
+const successNewPassword = ref(false);
 
 async function updatePassword() {
     isLoading.value = true;
+    errorNewPassword.value = false;
     const { error } = await AuthService.updatePassword(newPassword.value);
     
     if (error) {
         console.error('Error sending reset password email:', error);
+        errorNewPassword.value = true;
+        errorMessageNewPassword.value = error.message || 'An error occurred while updating your password.';
         isLoading.value = false;
         return;
     }
+    successNewPassword.value = true;
     isLoading.value = false;
-    resetPasswordEmailHasBeenSent.value = true;
+    startRedirectCountdown();
 }
-
 const hashParams = getHashParamsObject(route.hash);
 const error = hashParams.error;
-const errorMessage = hashParams.error_description || 'An error occurred while processing your request.';
+const errorMessageURL = hashParams.error_description || 'An error occurred while processing your request.';
+
+const redirectCountdown = ref(5);
+let countdownInterval;
+function startRedirectCountdown() {
+    countdownInterval = setInterval(() => {
+        if (redirectCountdown.value > 0) {
+            redirectCountdown.value--;
+        } else {
+            clearInterval(countdownInterval);
+            window.location.href = '/login';
+        }
+    }, 1000);
+};
 </script>
 
 <style lang="scss">
@@ -127,7 +149,6 @@ const errorMessage = hashParams.error_description || 'An error occurred while pr
         }
     }
 
-
     &-form {
         width: 300px;
         margin: 0 2rem;
@@ -135,6 +156,7 @@ const errorMessage = hashParams.error_description || 'An error occurred while pr
         flex-direction: column;
         align-items: center;
         justify-content: center;
+
         &-item {
             display: flex;
             flex-direction: column;
@@ -171,6 +193,15 @@ const errorMessage = hashParams.error_description || 'An error occurred while pr
                 color: red;
                 font-size: 1.2rem;
                 margin-top: 0.5rem;
+            }
+
+            &-success {
+                padding: 0 1rem;
+                text-align: center;
+
+                p {
+                    margin-bottom: 0.5rem;
+                }
             }
         }
 

@@ -92,6 +92,7 @@ watch(localConfirmPassword, (newVal) => emit('update:confirmPassword', newVal));
                 font-family: 'Quicksand', sans-serif;
                 font-size: $font-small;
                 font-weight: 500;
+                min-width: 250px;
 
                 &.invalid {
                     border-color: red;

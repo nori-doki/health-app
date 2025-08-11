@@ -12,7 +12,7 @@ export class AuthService {
     static async logIn(payload) {
         const { cookies } = useCookies();
         const { data : { user, session } = {}, error } = await supabase.auth.signInWithPassword(payload);
-        cookies.set("user_id", user.id);
+        user && cookies.set("user_id", user.id);
         return { user, session, error };
     }   
 
@@ -29,7 +29,7 @@ export class AuthService {
     }
 
     static async updatePassword(newPassword) {
-        const { error } = await supabase.auth.updateUser({ password: newPassword });
-        return { error };
+        const { data : { user }, error } = await supabase.auth.updateUser({ password: newPassword });
+        return { user, error };
     }
 };
