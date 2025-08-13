@@ -78,19 +78,18 @@ async function handleSubmit(){
             },
         },
     };
-    console.log('payload:', payload)
-    // loading.value = true;
-    // const { data, error } = await AuthService.signUp(payload);
+    loading.value = true;
+    const { data, error } = await AuthService.signUp(payload);
 
-    // if (error) {
-    //     console.error('Error signing up:', error.message);
-    //     loading.value = false;
-    //     return;
-    // } else {
-    //     setTimeout(() => {
-    //         router.push('/home');
-    //     }, 1000);
-    // }
+    if (error) {
+        console.error('Error signing up:', error.message);
+        loading.value = false;
+        return;
+    } else {
+        setTimeout(() => {
+            router.push('/home');
+        }, 1000);
+    }
 }
 
 const emailIsValid = computed(() => {
