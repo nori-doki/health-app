@@ -141,7 +141,6 @@ async function addNewScore(payload) {
         return;
     };
     if (status === 201) {
-        console.log('Daily scores added:', data);
         setTimeout(() => {
             router.push('/home');
         }, 1000);

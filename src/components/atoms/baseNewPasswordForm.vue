@@ -2,7 +2,7 @@
     <div class="new-password-form">
         <label for="password">Password *</label>
         <input :type="passwordInputType" id="password" name="password" required v-model="localPassword" autocomplete="new-password">
-        <div class="new-password-form-password-eye">
+        <div class="new-password-form-password-eye password-eye">
             <i v-if="showPassword" @click="$emit('toggleShowPassword')" class="pi pi-eye"></i>
             <i v-else @click="$emit('toggleShowPassword')" class="pi pi-eye-slash"></i>
         </div>
@@ -32,8 +32,8 @@
     </div>
     <div class="new-password-form">
         <label for="confirmPassword">Confirm Password *</label>
-        <input :type="confirmPasswordInputType" id="confirmPassword" name="confirmPassword" required v-model="localConfirmPassword" :class="{ 'invalid': confirmPassword.length > 0 && !passwordsMatch }"  autocomplete="new-password">
-        <div class="new-password-form-password-eye">
+        <input :type="confirmPasswordInputType" id="confirmPassword" name="confirmPassword" required v-model="localConfirmPassword" :class="{ 'invalid': localConfirmPassword.length > 0 && !passwordsMatch }"  autocomplete="new-password">
+        <div class="new-password-form-password-eye confirm-password-eye">
             <i v-if="showConfirmPassword" @click="$emit('toggleShowConfirmPassword')" class="pi pi-eye"></i>
             <i v-else @click="$emit('toggleShowConfirmPassword')" class="pi pi-eye-slash"></i>
         </div>
