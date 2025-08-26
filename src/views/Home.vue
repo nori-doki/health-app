@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <div class="home-title">
-            <h1>Hello, username</h1>
+            <h1>Hello{{ userData.nickname && `, ${userData.nickname}` }}</h1>
         </div>
         <div style="min-height: 250px; display: flex; justify-content: center; align-items: center;">
             <BaseDonut 
@@ -33,6 +33,11 @@ import BaseDonut from '../components/atoms/baseDonut.vue';
 const router = useRouter();
 const { cookies } = useCookies();
 const userId = cookies.get('user_id');
+const userData = {
+    nickname: cookies.get('nickname') || null,
+    email: cookies.get('email') || null,
+    stepGoal: cookies.get('step_goal') || null,
+};
 
 onMounted(async () => {
     isLoading.value = true;
@@ -101,13 +106,13 @@ function getLastSevenDaysNumber() {
         day.truncated_date = date.getDate().toString().padStart(2, '0');
         lastSevenDays.push(day);
     };
-
     weekScoresFormatted.value = lastSevenDays.reverse();
 }
 
 function getLastSevenDaysScores(allScores) {
     const lastSevenDays = weekScoresFormatted.value;
-    const scores = lastSevenDays.map((day) => {
+    let scores;
+    scores = lastSevenDays.map((day) => {
         const score = allScores.find((score) => score.date === day.timestamp);
         return {
             day: day.truncated_date,
@@ -115,6 +120,9 @@ function getLastSevenDaysScores(allScores) {
             grade: score ? score.mean_value : null,
         };
     });
+    if(scores.every(score => score.grade === null)) {
+        scores = scores.map(score => ({ ...score, grade: null }));
+    }
     weekScoresFormatted.value = scores;
 }
 
@@ -126,18 +134,21 @@ function getLastSevenDaysMeanValue() {
         return acc;
     }, 0);
     const numberOfExistingScores = weekScoresFormatted.value.filter(score => score.grade !== null).length;
+    if(numberOfExistingScores === 0) return null;
     const lastSevenDaysMeanValue = sumOfExistingScores / numberOfExistingScores;
-    return lastSevenDaysMeanValue !== NaN ? Math.floor(lastSevenDaysMeanValue) : null;
+    return Math.round(lastSevenDaysMeanValue);
 }
 </script>
 
 <style lang="scss">
 .home {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     &-title {
         margin-bottom: 30px;
-        margin-left: 30px;
         font-size: $font-title-big;
     }
     &-donut-chart {

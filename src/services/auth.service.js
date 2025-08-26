@@ -13,6 +13,9 @@ export class AuthService {
         const { cookies } = useCookies();
         const { data : { user, session } = {}, error } = await supabase.auth.signInWithPassword(payload);
         user && cookies.set("user_id", user.id);
+        user && cookies.set("nickname", user.user_metadata.nickname || null);
+        user && cookies.set("email", user.email || null);
+        user && cookies.set("stepGoal", user.user_metadata.stepGoal || null);
         return { user, session, error };
     }   
 
