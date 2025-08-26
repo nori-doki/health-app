@@ -3,6 +3,7 @@ import BurgerMenu from '@/components/molecules/burgerMenu.vue';
 import { vi } from 'vitest';
 import { createRouter, createMemoryHistory } from 'vue-router';
 import { nextTick } from 'vue';
+import { AuthService } from '@/services/auth.service';
 
 vi.mock('@/services/auth.service', () => ({
   AuthService: {
@@ -49,6 +50,28 @@ describe('BurgerMenu.vue', () => {
     expect(wrapper.find('.burger-menu-items').exists()).toBe(false);
   });
 
+    it('opens menu when Slide emits openMenu', async () => {
+          const wrapper = mount(BurgerMenu, {
+      global: {
+        plugins: [router]
+      }
+    });
+    await wrapper.findComponent({ name: 'Slide' }).vm.$emit('openMenu')
+      await nextTick()
+      expect(wrapper.vm.isOpen).toBe(true)
+    })
+  
+    it('closes menu when Slide emits closeMenu', async () => {
+          const wrapper = mount(BurgerMenu, {
+      global: {
+        plugins: [router]
+      }
+    });
+    await wrapper.findComponent({ name: 'Slide' }).vm.$emit('closeMenu')
+      await nextTick()
+      expect(wrapper.vm.isOpen).toBe(false)
+    })
+
   it('navigates to the correct route on click', async () => {
     const wrapper = mount(BurgerMenu, {
       global: {
@@ -82,5 +105,24 @@ describe('BurgerMenu.vue', () => {
     expect(wrapper.vm.isLoading).toBe(true);
     expect(wrapper.vm.isOpen).toBe(false);
     expect(pushSpy).toHaveBeenCalledWith('/');
+  });
+
+  it('logs error if logout fails', async () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    
+    AuthService.logOut.mockResolvedValueOnce({ error: 'Logout failed' });
+
+    const wrapper = mount(BurgerMenu, {
+      global: {
+        plugins: [router]
+      }
+    });
+
+    const logoutLink = wrapper.find('#logout');
+    await logoutLink.trigger('click');
+    await nextTick();
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith('Logout error:', 'Logout failed');
+    consoleErrorSpy.mockRestore();
   });
 });
