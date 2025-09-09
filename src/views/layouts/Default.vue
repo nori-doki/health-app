@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import BurgerMenu from '@/components/molecules/BurgerMenu.vue';
+import BurgerMenu from '@/components/molecules/burgerMenu.vue';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
