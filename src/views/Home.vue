@@ -29,6 +29,7 @@ import { ScoreService } from '@/services/score.service';
 import { useRouter } from 'vue-router';
 import { useCookies } from "vue3-cookies";
 import BaseDonut from '../components/atoms/baseDonut.vue';
+import Button from 'primevue/button';
 
 const router = useRouter();
 const { cookies } = useCookies();
