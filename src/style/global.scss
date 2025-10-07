@@ -79,14 +79,14 @@ $gradient-light-grey: linear-gradient(to bottom, #ffffff, $base-light-grey, $bas
 // Primevue components
 .p-button {
     min-width: 220px;
-    padding: 10px 20px;
+    padding: 10px 20px !important;
     backdrop-filter: blur(15px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px auto;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 20px !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
     font-weight: 500;
-    color: rgb(0, 0, 0);
+    color: rgb(0, 0, 0) !important;
 
     .p-button-icon {
         margin: 5px 10px;
