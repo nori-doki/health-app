@@ -4,7 +4,7 @@
         <span class="typing" ref="typing"></span>
 
         <p class="landing-page-text">Start the next step of your health journey.</p>
-        <a class="landing-page-text halo-animation" href="/method"
+        <a class="landing-page-text halo-animation" @click="goToPage('/method')"
         :style="'font-weight: 500;'">› Discover 80to100 here.</a>
         <div class="landing-page-nav">
             <Button 
@@ -19,7 +19,7 @@
         </div>
         <BaseLavaAnimation />
 
-        <a class="landing-page-signature" href="/about">hi 👋</a>
+        <a class="landing-page-signature" @click="goToPage('/about')">hi 👋</a>
     </div>
 </template>
 
