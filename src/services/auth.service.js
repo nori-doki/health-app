@@ -5,7 +5,11 @@ export class AuthService {
 
     static async signUp(payload) {
         //#TODO Implement error handling in signup
-        const { data, error } = await supabase.auth.signUp(payload);
+        const { data, error } = await supabase.auth.signUp(payload, 
+            {
+                emailRedirectTo: 'https://80to100x.netlify.app/login'
+            }
+        );
         return { data, error };
     }
 
@@ -26,7 +30,7 @@ export class AuthService {
 
     static async sendPasswordResetEmail(email) {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: 'http://localhost:5173/reset-password',
+            redirectTo: 'http://80to100x.netlify.app/reset-password',
         });
         return { error };
     }

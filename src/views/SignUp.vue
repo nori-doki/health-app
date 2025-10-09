@@ -1,7 +1,10 @@
 <template>
     <div class="sign-up">
         <h1 class="sign-up-title">Create your account</h1>
-        <form @submit.prevent="handleSubmit" class="sign-up-form">
+        <div v-if="showSuccessMessage" class="sign-up-success-message">
+            <p>{{ successMessage }}</p>
+        </div>
+        <form v-else @submit.prevent="handleSubmit" class="sign-up-form">
             <div class="sign-up-form-item">
                 <label for="email">Email *</label>
                 <input type="email" id="email" name="email" required v-model="email"
@@ -53,12 +56,9 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { AuthService } from '@/services/auth.service';
 
-import baseNewPasswordForm from '../components/atoms/baseNewPasswordForm.vue';
-
-const router = useRouter();
+import baseNewPasswordForm from '@/components/atoms/baseNewPasswordForm.vue';
 
 const email = ref('');
 const password = ref('');
@@ -66,6 +66,8 @@ const confirmPassword = ref('');
 const nickname = ref('');
 const stepGoal = ref(0);
 const loading = ref(false);
+const showSuccessMessage = ref(false);
+const successMessage = ref('Account successfully created! Check your emails to confirm your signup...');
 
 async function handleSubmit(){
     const payload = {
@@ -86,9 +88,9 @@ async function handleSubmit(){
         loading.value = false;
         return;
     } else {
-        setTimeout(() => {
-            router.push('/home');
-        }, 1000);
+        console.log('Sign up successful:', data);
+        loading.value = false;
+        showSuccessMessage.value = true;
     }
 }
 
@@ -217,6 +219,17 @@ const confirmPasswordInputType = computed(() => showConfirmPassword.value ? 'tex
                 background-color: #ccc !important;
             }
         }
+    }
+
+    &-success-message {
+        background-color: $base-green;
+        border: 1px solid $base-green;
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        margin: 1rem 2rem;
+        text-align: center;
+        font-weight: 600;
     }
 }
 
